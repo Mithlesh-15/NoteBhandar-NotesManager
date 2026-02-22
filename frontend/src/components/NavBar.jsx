@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Crown } from "lucide-react";
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,16 +10,32 @@ function NavBar() {
         <div className="max-w-6xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
           <h1 className="text-xl font-bold tracking-wide">NoteBhandar</h1>
 
-          <button
-            type="button"
-            className="flex flex-col justify-center items-center gap-1.5 p-2"
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-            aria-label="Open menu"
-          >
-            <span className="w-6 h-0.5 bg-white rounded" />
-            <span className="w-6 h-0.5 bg-white rounded" />
-            <span className="w-6 h-0.5 bg-white rounded" />
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="relative group">
+              <button
+                type="button"
+                className="p-2 cursor-pointer"
+                aria-label="Contributors"
+                title="Contributors"
+              >
+                <Crown size={20} />
+              </button>
+              <span className="pointer-events-none absolute top-full right-0 mt-1 rounded bg-black px-2 py-1 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                Contributors
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className="flex flex-col justify-center items-center gap-1.5 p-2 cursor-pointer"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-label="Open menu"
+            >
+              <span className="w-6 h-0.5 bg-white rounded" />
+              <span className="w-6 h-0.5 bg-white rounded" />
+              <span className="w-6 h-0.5 bg-white rounded" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -38,7 +55,7 @@ function NavBar() {
           <p className="font-semibold text-lg text-purple-600">NoteBhandar</p>
           <button
             type="button"
-            className="text-2xl leading-none"
+            className="text-2xl leading-none cursor-pointer"
             onClick={() => setIsMenuOpen(false)}
             aria-label="Close menu"
           >
@@ -54,19 +71,19 @@ function NavBar() {
           />
           <button
             type="button"
-            className="mt-4 w-full py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors duration-200"
+            className="mt-4 w-full py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors duration-200 cursor-pointer"
           >
             My Profile
           </button>
           <button
             type="button"
-            className="mt-3 w-full py-2 rounded-md bg-purple-100 text-purple-700 font-medium hover:bg-purple-200 transition-colors duration-200"
+            className="mt-3 w-full py-2 rounded-md bg-purple-100 text-purple-700 font-medium hover:bg-purple-200 transition-colors duration-200 cursor-pointer"
           >
             My Contribution
           </button>
           <button
             type="button"
-            className="mt-3 w-full py-2 rounded-md bg-purple-100 text-purple-700 font-medium hover:bg-purple-200 transition-colors duration-200"
+            className="mt-3 w-full py-2 rounded-md bg-purple-100 text-purple-700 font-medium hover:bg-purple-200 transition-colors duration-200 cursor-pointer"
           >
             Feedback
           </button>
