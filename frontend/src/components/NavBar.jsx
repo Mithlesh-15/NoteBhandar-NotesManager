@@ -64,6 +64,12 @@ function NavBar() {
           >
             My Contribution
           </button>
+          <button
+            type="button"
+            className="mt-3 w-full py-2 rounded-md bg-purple-100 text-purple-700 font-medium hover:bg-purple-200 transition-colors duration-200"
+          >
+            Feedback
+          </button>
         </div>
 
         <a
