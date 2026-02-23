@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import AddNew from "./components/AddNew";
 import Loading from "./components/Loading";
 import NoteType from "./pages/NoteType";
+import Sem from "./pages/Sem";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         {/* <Home /> */}
         {/* <Loading /> */}
         <NoteType />
+        {/* <Sem /> */}
         <AddNew />
       </div>
     </>
