@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 function NoteType() {
-  const [selectedYear, setSelectedYear] = React.useState("1st Year");
-  const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+  const [selectedYear, setSelectedYear] = useState("1st Year");
+  const years = ["2022", "2023", "2024", "2025", "2026"];
 
   const options = [
     "Class Notes",

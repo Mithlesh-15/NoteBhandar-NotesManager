@@ -14,8 +14,8 @@ function App() {
         <NavBar />
         {/* <Home /> */}
         {/* <Loading /> */}
-        <NoteType />
         {/* <Sem /> */}
+        <NoteType />
         <AddNew />
       </div>
     </>
