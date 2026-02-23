@@ -36,6 +36,17 @@ function Home() {
           <option value="work">Work Notes</option>
         </select>
       </div>
+
+      {/* fetch button */}
+
+      <div className="w-full max-w-md flex justify-center">
+        <button
+          type="button"
+          className="mt-2 rounded-xl bg-purple-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md cursor-pointer transition-all duration-200 hover:bg-purple-700 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#f6e7d8]"
+        >
+          Find
+        </button>
+      </div>
     </div>
   );
 }
