@@ -5,6 +5,12 @@ import AddNew from "./components/AddNew";
 import Loading from "./components/Loading";
 import NoteType from "./pages/NoteType";
 import Sem from "./pages/Sem";
+import Resource from "./pages/Resource";
+import Login from "./pages/Login";
+import MyContribution from "./pages/MyContribution";
+import FandR from "./pages/FandR";
+import MyProfile from "./pages/MyProfile";
+import Contributers from "./pages/Contributers";
 
 
 function App() {
@@ -15,10 +21,18 @@ function App() {
         {/* <Home /> */}
         {/* <Loading /> */}
         {/* <Sem /> */}
-        <NoteType />
+        {/* <NoteType /> */}
+        {/* <Resource /> */}
+        {/* <MyContribution /> */}
+        {/* <FandR /> */}
+        {/* <MyProfile /> */}
+        <Contributers />
         <AddNew />
       </div>
     </>
+    // <>
+    // <Login />
+    // </>
   );
 }
 
