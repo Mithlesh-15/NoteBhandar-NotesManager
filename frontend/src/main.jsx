@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -22,10 +23,12 @@ import MyContribution from "./pages/MyContribution";
 import FandR from "./pages/FandR";
 import Contributers from "./pages/Contributers";
 import NavBar from "./components/NavBar";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+      <Route path="/" element={<Navigate to="/find" replace />} />
       <Route path="/find" element={<App />}>
         <Route index element={<Home />} />
         <Route path=":college/:course/:subject" element={<Sem />} />
@@ -83,7 +86,10 @@ const router = createBrowserRouter(
       <Route
         path="*"
         element={
-          <h1 className="text-center text-2xl font-bold">404 Not Found</h1>
+          <>
+            <NavBar />
+            <NotFound />
+          </>
         }
       />
     </>,
