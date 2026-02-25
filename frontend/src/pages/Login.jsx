@@ -1,5 +1,7 @@
 import React from "react";
 import { Chrome } from "lucide-react";
+import { auth, googleProvider } from "../utils/firebaseConfig";
+import { signInWithPopup } from "firebase/auth";
 
 function Login() {
   return (
@@ -15,6 +17,10 @@ function Login() {
         <button
           type="button"
           className="mb-4 flex w-full items-center justify-center gap-2 rounded-xl border border-purple-200 bg-purple-50 px-3 py-3 text-sm font-semibold text-purple-800 shadow-sm transition hover:bg-purple-100"
+          onClick={async ()=>{
+            await signInWithPopup(auth, googleProvider)
+            console.log(auth)
+          }}
         >
           <Chrome className="h-4 w-4 text-purple-600" />
           Enter Your GMail
