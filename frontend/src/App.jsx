@@ -11,6 +11,9 @@ import MyContribution from "./pages/MyContribution";
 import FandR from "./pages/FandR";
 import MyProfile from "./pages/MyProfile";
 import Contributers from "./pages/Contributers";
+import AddBase from "./pages/AddNew/AddBase";
+import AddInfo from "./pages/AddNew/AddInfo";
+import AddResource from "./pages/AddNew/AddResource";
 
 
 function App() {
@@ -26,8 +29,11 @@ function App() {
         {/* <MyContribution /> */}
         {/* <FandR /> */}
         {/* <MyProfile /> */}
-        <Contributers />
-        <AddNew />
+        {/* <Contributers /> */}
+        {/* <AddBase /> */}
+        {/* <AddInfo /> */}
+        <AddResource />
+        {/* <AddNew /> */}
       </div>
     </>
     // <>
