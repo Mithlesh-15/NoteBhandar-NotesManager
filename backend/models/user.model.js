@@ -5,24 +5,23 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      trim: true,
       lowercase: true,
     },
     fullname: {
       type: String,
-      default: "",
+      required: true,
     },
     avatar: {
       type: String,
-      default: "",
+      required: true,
     },
     college: {
       type: String,
-      default: "",
+      required: true,
     },
     bio: {
       type: String,
-      default: "",
+      required: true,
     },
     stars: {
       type: Number,

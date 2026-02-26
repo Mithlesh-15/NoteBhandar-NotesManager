@@ -8,7 +8,45 @@ import api from "../utils/api";
 
 function Login() {
   const [loading, setLoading] = useState(false);
+  const [UserInfo, setUserInfo] = useState({
+    email: "",
+    fullname: "",
+    avatar: "",
+    college: "",
+    bio: "",
+  });
+
   const navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { email, fullname, avatar, college, bio } = UserInfo;
+
+      if (!email || !fullname || !avatar || !college || !bio) {
+        alert("All fields are required");
+        return;
+      }
+
+      setLoading(true);
+
+      const response = await api.post("/api/v1/login/login-user", {
+        email,
+        fullname,
+        avatar,
+        college,
+        bio,
+      });
+
+      if (response?.data?.success) {
+        navigate("/add-new");
+      }
+    } catch (error) {
+      alert(error.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       {loading && <Loading />}
@@ -28,10 +66,18 @@ function Login() {
               await signInWithPopup(auth, googleProvider);
               setLoading(true);
               try {
-                const response = await api.post("/api/v1/login/exist-user",{email:auth.currentUser.email})
-                console.log(response.data);
-                if(response.data.exists){
+                const response = await api.post("/api/v1/login/exist-user", {
+                  email: auth.currentUser.email,
+                });
+                if (response.data.exists) {
                   navigate("/add-new");
+                } else {
+                  setUserInfo((prev) => ({
+                    ...prev,
+                    email: auth.currentUser.email,
+                    fullname: auth.currentUser.displayName,
+                    avatar: auth.currentUser.photoURL,
+                  }));
                 }
               } catch (error) {
                 console.error("Google Sign-In error:", error);
@@ -56,6 +102,10 @@ function Login() {
                 id="college"
                 type="text"
                 placeholder="Enter your college name"
+                value={UserInfo.college}
+                onChange={(e) =>
+                  setUserInfo((prev) => ({ ...prev, college: e.target.value }))
+                }
                 className="w-full rounded-xl border border-purple-200 bg-white px-3 py-2.5 text-sm text-purple-900 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
               />
             </div>
@@ -71,6 +121,10 @@ function Login() {
                 id="bio"
                 rows={4}
                 placeholder="Write a short bio..."
+                value={UserInfo.bio}
+                onChange={(e) =>
+                  setUserInfo((prev) => ({ ...prev, bio: e.target.value }))
+                }
                 className="w-full resize-none rounded-xl border border-purple-200 bg-white px-3 py-2.5 text-sm text-purple-900 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-200"
               />
             </div>
@@ -81,6 +135,7 @@ function Login() {
             <button
               type="submit"
               className="w-full rounded-xl bg-purple-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-purple-700 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-white"
+              onClick={handleLogin}
             >
               Login
             </button>
