@@ -1,4 +1,26 @@
+import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
+
+export const generateTokenAndSetCookie = (res, email, userId) => {
+  const jwtSecret = process.env.JWT_SECRET;
+
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  const token = jwt.sign({ email, userId }, jwtSecret, {
+    expiresIn: "7d",
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
+
+  return token;
+};
 
 export const existUser = async (req, res) => {
   try {
@@ -13,7 +35,7 @@ export const existUser = async (req, res) => {
 
     const normalizedEmail = email.toLowerCase();
     const user = await User.findOne({ email: normalizedEmail }).select(
-      "_id email fullname avatar"
+      "_id email fullname avatar",
     );
 
     if (!user) {
@@ -23,7 +45,11 @@ export const existUser = async (req, res) => {
         message: "User does not exist",
       });
     }
-
+    generateTokenAndSetCookie(
+      res,
+      normalizedEmail,
+      user._id.toString(),
+    );
     return res.status(200).json({
       success: true,
       exists: true,
@@ -65,6 +91,12 @@ export const loginUser = async (req, res) => {
     const existingUser = await User.findOne({ email: normalizedEmail });
 
     if (existingUser) {
+      generateTokenAndSetCookie(
+        res,
+        normalizedEmail,
+        existingUser._id.toString(),
+      );
+
       return res.status(200).json({
         success: true,
         message: "User already exists",
@@ -80,6 +112,12 @@ export const loginUser = async (req, res) => {
       college,
       bio,
     });
+
+    const token = generateTokenAndSetCookie(
+      res,
+      normalizedEmail,
+      newUser._id.toString(),
+    );
 
     return res.status(201).json({
       success: true,
