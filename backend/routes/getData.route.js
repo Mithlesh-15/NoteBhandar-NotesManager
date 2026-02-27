@@ -1,11 +1,15 @@
-import express from 'express';
-import { getAllColleges } from '../controllers/getData.controller.js';
-import isAuthorized from '../utils/isAuthorized.js';
+import express from "express";
+import isAuthorized from "../utils/isAuthorized.js";
+import {
+  getColleges,
+  getCourses,
+  getSubjects,
+} from "../controllers/getData.controller.js";
 
 const router = express.Router();
 
-router.get('/college',isAuthorized,getAllColleges);
-router.get('/course',isAuthorized,getAllColleges);
-router.get('/subject',isAuthorized,getAllColleges);
+router.get("/college", isAuthorized, getColleges);
+router.post("/course", isAuthorized, getCourses);
+router.post("/subject", isAuthorized, getSubjects);
 
 export default router;
