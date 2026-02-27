@@ -20,7 +20,15 @@ function AddBase() {
     college: [],
     course: [],
     subject: [],
+    collegeNew: "",
+    courseNew: "",
+    subjectNew: "",
   });
+  const [newData, setNewData] = useState(false);
+
+  const handleNext = () => {
+    console.log("New Data");
+  };
 
   useEffect(() => {
     const fetchColleges = async () => {
@@ -75,11 +83,14 @@ function AddBase() {
               value={college}
               onChange={async (e) => {
                 setCollege(e.target.value);
-                if (e.target.value === "add_new" || e.target.value === "select")
+                if (e.target.value === "select") return;
+                if (e.target.value === "add_new") {
+                  setNewData(true);
                   return;
+                }
                 try {
                   setLoading(true);
-
+                  setNewData(false);
                   const response = await api.post("/api/v1/get-data/course", {
                     collegeId: e.target.value,
                   });
@@ -94,7 +105,7 @@ function AddBase() {
                   }));
                 } catch (error) {
                   console.error("Error fetching courses:", error);
-                  // navigate("/login", { replace: true });
+                  navigate("/login", { replace: true });
                 } finally {
                   setLoading(false);
                 }
@@ -111,8 +122,15 @@ function AddBase() {
             {college === "add_new" && (
               <input
                 type="text"
+                value={baseData.collegeNew || ""}
                 className={inputClass}
                 placeholder="Enter new college name"
+                onChange={(e) => {
+                  setBaseData((prev) => ({
+                    ...prev,
+                    collegeNew: e.target.value,
+                  }));
+                }}
               />
             )}
           </div>
@@ -126,11 +144,17 @@ function AddBase() {
               value={course}
               onChange={async (e) => {
                 setCourse(e.target.value);
-                if (e.target.value === "add_new" || e.target.value === "select") return;
+                if (e.target.value === "select") return;
+                if (e.target.value === "add_new") {
+                  setNewData(true);
+                  return;
+                }
                 try {
                   setLoading(true);
-
-                  const response = await api.post("/api/v1/get-data/subject",{courseId: e.target.value });
+setNewData(false);
+                  const response = await api.post("/api/v1/get-data/subject", {
+                    courseId: e.target.value,
+                  });
 
                   const subjects = Array.isArray(response?.data?.subjects)
                     ? response.data.subjects
@@ -159,8 +183,15 @@ function AddBase() {
             {course === "add_new" && (
               <input
                 type="text"
+                value={baseData.courseNew}
                 className={inputClass}
                 placeholder="Enter new course name"
+                onChange={(e) => {
+                  setBaseData((prev) => ({
+                    ...prev,
+                    courseNew: e.target.value,
+                  }));
+                }}
               />
             )}
           </div>
@@ -172,7 +203,15 @@ function AddBase() {
             <select
               className={selectorClass}
               value={subject}
-              onChange={(e) => setSubject(e.target.value)}
+              onChange={(e) => {
+                setSubject(e.target.value);
+                if (e.target.value === "select") return;
+                if (e.target.value === "add_new") {
+                  setNewData(true);
+                  return;
+                }
+                setNewData(false);
+              }}
             >
               <option value="select">Select</option>
               <option value="add_new">Add New</option>
@@ -185,8 +224,15 @@ function AddBase() {
             {subject === "add_new" && (
               <input
                 type="text"
+                value={baseData.subjectNew}
                 className={inputClass}
                 placeholder="Enter new subject name"
+                onChange={(e) => {
+                  setBaseData((prev) => ({
+                    ...prev,
+                    subjectNew: e.target.value,
+                  }));
+                }}
               />
             )}
           </div>
@@ -196,6 +242,10 @@ function AddBase() {
           <button
             type="button"
             className="mx-auto flex w-full max-w-xl cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-purple-600 bg-[#f6d7b8] px-6 py-3 font-semibold text-black shadow-md transition-all duration-150 hover:bg-[#f3cca2] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-[#f9e4cb]"
+            onClick={() => {
+              if (newData) handleNext();
+              else navigate(`/add-new/${college}/${course}/${subject}`);
+            }}
           >
             <span className="tracking-wide">Next</span>
             <ArrowBigRightDash size={18} />
