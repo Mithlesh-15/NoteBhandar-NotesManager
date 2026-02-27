@@ -62,7 +62,6 @@ export const getCourses = async (req, res) => {
       id: course._id,
       name: course.courseName,
     }));
-
     return res.status(200).json({
       success: true,
       courses: courseList,

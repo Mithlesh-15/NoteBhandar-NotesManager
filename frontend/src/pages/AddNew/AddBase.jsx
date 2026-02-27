@@ -43,6 +43,7 @@ function AddBase() {
           college: colleges,
         }));
       } catch (error) {
+        console.error("Error fetching colleges:", error);
         navigate("/login", { replace: true });
       } finally {
         setLoading(false);
@@ -72,7 +73,32 @@ function AddBase() {
             <select
               className={selectorClass}
               value={college}
-              onChange={(e) => setCollege(e.target.value)}
+              onChange={async (e) => {
+                setCollege(e.target.value);
+                if (e.target.value === "add_new" || e.target.value === "select")
+                  return;
+                try {
+                  setLoading(true);
+
+                  const response = await api.post("/api/v1/get-data/course", {
+                    collegeId: e.target.value,
+                  });
+
+                  const courses = Array.isArray(response?.data?.courses)
+                    ? response.data.courses
+                    : [];
+
+                  setBaseData((prev) => ({
+                    ...prev,
+                    course: courses,
+                  }));
+                } catch (error) {
+                  console.error("Error fetching courses:", error);
+                  // navigate("/login", { replace: true });
+                } finally {
+                  setLoading(false);
+                }
+              }}
             >
               <option value="select">Select</option>
               <option value="add_new">Add New</option>
@@ -98,13 +124,35 @@ function AddBase() {
             <select
               className={selectorClass}
               value={course}
-              onChange={(e) => setCourse(e.target.value)}
+              onChange={async (e) => {
+                setCourse(e.target.value);
+                if (e.target.value === "add_new" || e.target.value === "select") return;
+                try {
+                  setLoading(true);
+
+                  const response = await api.post("/api/v1/get-data/subject",{courseId: e.target.value });
+
+                  const subjects = Array.isArray(response?.data?.subjects)
+                    ? response.data.subjects
+                    : [];
+
+                  setBaseData((prev) => ({
+                    ...prev,
+                    subject: subjects,
+                  }));
+                } catch (error) {
+                  console.error("Error fetching subjects:", error);
+                  navigate("/login", { replace: true });
+                } finally {
+                  setLoading(false);
+                }
+              }}
             >
               <option value="select">Select</option>
               <option value="add_new">Add New</option>
               {baseData.course.map((col, idx) => (
-                <option key={idx} value={col}>
-                  {col}
+                <option key={idx} value={col.id}>
+                  {col.name}
                 </option>
               ))}
             </select>
@@ -129,8 +177,8 @@ function AddBase() {
               <option value="select">Select</option>
               <option value="add_new">Add New</option>
               {baseData.subject.map((col, idx) => (
-                <option key={idx} value={col}>
-                  {col}
+                <option key={idx} value={col.id}>
+                  {col.name}
                 </option>
               ))}
             </select>
