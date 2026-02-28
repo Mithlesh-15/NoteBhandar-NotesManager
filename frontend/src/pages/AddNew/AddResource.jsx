@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../utils/api";
 
 const selectorClass =
   "w-full rounded-2xl border border-[#c9b6e4] bg-white/95 px-4 py-3 text-gray-700 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-300";
@@ -14,9 +16,16 @@ const cloudLinks = [
 ];
 
 function AddResource() {
-  const [noteType, setNoteType] = useState("class_notes");
+  const navigate = useNavigate();
+  const { sem, year } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [noteType, setNoteType] = useState([]);
   const [showHelp, setShowHelp] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
+  const [selecterData, setSelecterData] = useState({
+    noteType: "",
+    newNoteType: "",
+  });
 
   const openHelpModal = () => {
     setShowHelp(true);
@@ -27,6 +36,32 @@ function AddResource() {
     setIsPopupActive(false);
     setTimeout(() => setShowHelp(false), 180);
   };
+
+  useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        setLoading(true);
+
+        const response = await api.post("/api/v1/get-data/notetype", {
+          semesterId: sem,
+          year: year,
+        });
+
+        const types = Array.isArray(response?.data?.noteTypes)
+          ? response.data.noteTypes
+          : [];
+
+        setNoteType(types);
+      } catch (error) {
+        console.error("Error fetching colleges:", error);
+        navigate("/login", { replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchColleges();
+  }, [navigate]);
 
   return (
     <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-linear-to-b from-[#fff6e9] via-[#ffe9d2] to-[#f9ddbf] px-3 pb-36 pt-5 sm:px-4 sm:pt-8">
@@ -42,20 +77,22 @@ function AddResource() {
           <p className="mb-2 text-sm font-semibold text-[#6b4f91]">Note Type</p>
           <select
             className={selectorClass}
-            value={noteType}
-            onChange={(e) => setNoteType(e.target.value)}
+            value={selecterData.noteType}
+            onChange={(e) => setSelecterData({...selecterData, noteType: e.target.value})}
           >
-            <option value="class_notes">Class Notes</option>
-            <option value="exam_notes">Exam Notes</option>
-            <option value="handwritten">Handwritten Notes</option>
-            <option value="assignment">Assignment</option>
+            <option value="select">Select</option>
             <option value="add_new">Add New</option>
+            {noteType.map((col)=>(
+              <option key={col.id} value={col.name}>{col.name}</option>
+            ))}
           </select>
-          {noteType === "add_new" && (
+          {selecterData.noteType === "add_new" && (
             <input
               type="text"
               className="mt-3 w-full rounded-xl border border-purple-200 bg-white px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-200"
               placeholder="Enter note type"
+              value={selecterData.newNoteType}
+              onChange={(e) => setSelecterData({...selecterData, newNoteType: e.target.value})}
             />
           )}
         </div>

@@ -3,6 +3,7 @@ import isAuthorized from "../utils/isAuthorized.js";
 import {
   getColleges,
   getCourses,
+  getNotetype,
   getSemester,
   getSubjects,
 } from "../controllers/getData.controller.js";
@@ -13,5 +14,6 @@ router.get("/college", isAuthorized, getColleges);
 router.post("/course", getCourses);
 router.post("/subject", getSubjects);
 router.post("/semester-options", getSemester);
+router.post("/notetype", getNotetype);
 
 export default router;

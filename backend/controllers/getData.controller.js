@@ -3,6 +3,7 @@ import College from "../models/college.model.js";
 import Course from "../models/course.model.js";
 import Subject from "../models/subject.model.js";
 import Semester from "../models/semester.model.js";
+import NoteType from "../models/notetype.model.js";
 
 export const getColleges = async (req, res) => {
   try {
@@ -140,6 +141,44 @@ export const getSemester = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while fetching semesters",
+    });
+  }
+};
+
+export const getNotetype = async (req, res) => {
+  try {
+    const { semesterId, year } = req.body;
+
+    if (!semesterId || !year) {
+      return res.status(400).json({
+        success: false,
+        message: "semesterId and year are required",
+      });
+    }
+
+    const noteTypes = await NoteType.find({
+      semesterId,
+      noteYear: Number(year),
+    })
+      .select("_id noteType noteYear")
+      .sort({ noteType: 1 })
+      .lean();
+
+    const noteTypeList = noteTypes.map((note) => ({
+      id: note._id,
+      name: note.noteType,
+      year: note.noteYear,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      noteTypes: noteTypeList,
+    });
+  } catch (error) {
+    console.error("getNotetype error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching note types",
     });
   }
 };
