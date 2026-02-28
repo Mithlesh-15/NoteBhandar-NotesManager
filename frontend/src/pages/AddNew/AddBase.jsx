@@ -13,9 +13,9 @@ const inputClass =
 function AddBase() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [college, setCollege] = useState("personal");
-  const [course, setCourse] = useState("personal");
-  const [subject, setSubject] = useState("personal");
+  const [college, setCollege] = useState("");
+  const [course, setCourse] = useState("");
+  const [subject, setSubject] = useState("");
   const [baseData, setBaseData] = useState({
     college: [],
     course: [],
@@ -26,8 +26,34 @@ function AddBase() {
   });
   const [newData, setNewData] = useState(false);
 
-  const handleNext = () => {
-    console.log("New Data");
+  const handleNext = async () => {
+    try {
+      setLoading(true);
+
+      const response = await api.post("/api/v1/set-data/base", {
+        collegeName: baseData.collegeNew,
+        courseName: baseData.courseNew,
+        subjectName: baseData.subjectNew,
+      });
+
+      if (!response?.data?.success) {
+        alert(response?.data?.message || "Failed to create data");
+        return;
+      }
+
+      const { collegeId, courseId, subjectId } = response.data.ids || {};
+
+      if (!collegeId || !courseId || !subjectId) {
+        alert("Invalid response from server");
+        return;
+      }
+
+      navigate(`/add-new/${collegeId}/${courseId}/${subjectId}`);
+    } catch (error) {
+      alert(error?.response?.data?.message || "Failed to create data");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -151,7 +177,7 @@ function AddBase() {
                 }
                 try {
                   setLoading(true);
-setNewData(false);
+                  setNewData(false);
                   const response = await api.post("/api/v1/get-data/subject", {
                     courseId: e.target.value,
                   });
@@ -244,7 +270,13 @@ setNewData(false);
             className="mx-auto flex w-full max-w-xl cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-purple-600 bg-[#f6d7b8] px-6 py-3 font-semibold text-black shadow-md transition-all duration-150 hover:bg-[#f3cca2] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-[#f9e4cb]"
             onClick={() => {
               if (newData) handleNext();
-              else navigate(`/add-new/${college}/${course}/${subject}`);
+              else if (
+                college === "select" ||
+                course === "select" ||
+                subject === "select"
+              ) {
+                return;
+              } else navigate(`/add-new/${college}/${course}/${subject}`);
             }}
           >
             <span className="tracking-wide">Next</span>
