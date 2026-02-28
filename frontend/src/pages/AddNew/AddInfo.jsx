@@ -133,7 +133,44 @@ function AddInfo() {
           <button
             type="button"
             className="mx-auto flex w-full max-w-xl cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-purple-600 bg-[#f6d7b8] px-6 py-3 font-semibold text-black shadow-md transition-all duration-150 hover:bg-[#f3cca2] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-offset-2 focus:ring-offset-[#f9e4cb]"
-            
+            onClick={async () => {
+              if (newData) {
+                try {
+                  setLoading(true);
+
+                  const response = await api.post("/api/v1/set-data/info", {
+                    subjectId:subject,
+                    semester: selectedData.newSemester,
+                  });
+
+                  if (!response?.data?.success) {
+                    alert(response?.data?.message || "Failed to create data");
+                    return;
+                  }
+
+                  
+
+                  if (!response.data.semesterId) {
+                    alert("Invalid response from server");
+                    return;
+                  }
+
+                  navigate(
+                  `/add-new/${college}/${course}/${subject}/${response.data.semesterId}/${selectedData.year}`,
+                );
+                } catch (error) {
+                  alert(
+                    error?.response?.data?.message || "Failed to create data",
+                  );
+                } finally {
+                  setLoading(false);
+                }
+              } else {
+                navigate(
+                  `/add-new/${college}/${course}/${subject}/${selectedData.semester}/${selectedData.year}`,
+                );
+              }
+            }}
           >
             <span className="tracking-wide">Next</span>
             <ArrowBigRightDash size={18} />

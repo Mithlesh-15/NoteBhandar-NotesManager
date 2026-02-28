@@ -1,6 +1,7 @@
 import College from "../models/college.model.js";
 import Course from "../models/course.model.js";
 import Subject from "../models/subject.model.js";
+import Semester from "../models/semester.model.js";
 
 export const createCollegeCourseSubject = async (req, res) => {
   try {
@@ -45,6 +46,36 @@ export const createCollegeCourseSubject = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while creating data",
+    });
+  }
+};
+
+export const createSemester = async (req, res) => {
+  try {
+    const { subjectId, semester } = req.body;
+
+    if (!subjectId || !semester) {
+      return res.status(400).json({
+        success: false,
+        message: "subjectId and semester are required",
+      });
+    }
+
+    const newSemester = await Semester.create({
+      subjectId,
+      semester,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Semester created successfully",
+      semesterId: newSemester._id,
+    });
+  } catch (error) {
+    console.error("createSemester error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while creating semester",
     });
   }
 };
