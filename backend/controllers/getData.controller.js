@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import College from "../models/college.model.js";
 import Course from "../models/course.model.js";
 import Subject from "../models/subject.model.js";
+import Semester from "../models/semester.model.js";
 
 export const getColleges = async (req, res) => {
   try {
@@ -105,6 +106,40 @@ export const getSubjects = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while fetching subjects",
+    });
+  }
+};
+
+export const getSemester = async (req, res) => {
+  try {
+    const { subjectId } = req.body;
+
+    if (!subjectId) {
+      return res.status(400).json({
+        success: false,
+        message: "subjectId is required",
+      });
+    }
+
+    const semesters = await Semester.find({ subjectId })
+      .select("_id semester")
+      .sort({ semester: 1 })
+      .lean();
+
+    const semesterList = semesters.map((semester) => ({
+      id: semester._id,
+      name: semester.semester,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      semesters: semesterList,
+    });
+  } catch (error) {
+    console.error("getSemesterBySubject error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching semesters",
     });
   }
 };
