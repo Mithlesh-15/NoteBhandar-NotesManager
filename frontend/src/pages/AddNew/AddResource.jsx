@@ -64,7 +64,7 @@ function AddResource() {
   };
 
   useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
 
@@ -86,7 +86,7 @@ function AddResource() {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate]);
 
   return (

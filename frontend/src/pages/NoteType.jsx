@@ -21,7 +21,7 @@ function NoteType() {
   };
 
   useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
 
@@ -42,7 +42,7 @@ function NoteType() {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate, selectedYear]);
 
   return (

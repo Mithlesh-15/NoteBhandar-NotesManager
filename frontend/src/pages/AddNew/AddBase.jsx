@@ -57,7 +57,7 @@ function AddBase() {
   };
 
   useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
 
@@ -84,7 +84,7 @@ function AddBase() {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate]);
 
   return (

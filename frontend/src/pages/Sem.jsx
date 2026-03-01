@@ -14,7 +14,7 @@ function Sem() {
   };
 
   useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
 
@@ -35,7 +35,7 @@ function Sem() {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate]);
 
   return (

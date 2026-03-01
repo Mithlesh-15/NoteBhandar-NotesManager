@@ -10,7 +10,7 @@ function Resource() {
   const [resources, setResources] = useState([])
 
 useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         // setLoading(true);
 
@@ -31,7 +31,7 @@ useEffect(() => {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate]);
 
   return (

@@ -29,7 +29,7 @@ function AddInfo() {
   );
 
   useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
 
@@ -50,7 +50,7 @@ function AddInfo() {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate]);
 
   return (

@@ -15,7 +15,7 @@ function Home() {
     selectedSubject: "",
   });
   useEffect(() => {
-    const fetchColleges = async () => {
+    const fetch = async () => {
       try {
         setLoading(true);
 
@@ -37,7 +37,7 @@ function Home() {
       }
     };
 
-    fetchColleges();
+    fetch();
   }, [navigate]);
 
   return (
