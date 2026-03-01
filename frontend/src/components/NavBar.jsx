@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { Crown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function NavBar() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
       <header className="w-full h-16 bg-purple-600 text-white shadow-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
-          <h1 className="text-xl font-bold tracking-wide">NoteBhandar</h1>
+          <h1
+            className="text-xl font-bold tracking-wide cursor-pointer"
+            onClick={() => navigate("/")}
+          >
+            NoteBhandar
+          </h1>
 
           <div className="flex items-center gap-2">
             <div className="relative group">
