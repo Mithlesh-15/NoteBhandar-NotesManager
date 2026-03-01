@@ -24,6 +24,7 @@ function AddResource() {
   const [showHelp, setShowHelp] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
   const [selectedData, setSelectedData] = useState({
+    noteTypeId:"",
     noteType: "",
     newNoteType: "",
     title: "",
@@ -45,7 +46,11 @@ function AddResource() {
     try {
       const response = await api.post("/api/v1/set-data/resourse", {
         semesterId: sem,
-        noteType: selectedData.noteType === "add_new" ? selectedData.newNoteType : selectedData.noteType,
+        noteTypeId: selectedData.noteTypeId,
+        noteType:
+          selectedData.noteType === "add_new"
+            ? selectedData.newNoteType
+            : selectedData.noteType,
         noteYear: year,
         resourseTitle: selectedData.title,
         link: selectedData.link,
@@ -109,7 +114,7 @@ function AddResource() {
               className={selectorClass}
               value={selectedData.noteType}
               onChange={(e) =>
-                setSelectedData({ ...selectedData, noteType: e.target.value })
+                setSelectedData({ ...selectedData, noteType: e.target.value,noteTypeId:e.target.key })
               }
             >
               <option value="select">Select</option>

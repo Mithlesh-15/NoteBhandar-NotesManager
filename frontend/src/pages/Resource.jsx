@@ -21,7 +21,6 @@ useEffect(() => {
         const data = Array.isArray(response?.data?.resourses)
           ? response.data.resourses
           : [];
-          console.log(data)
           setResources(data)
       } catch (error) {
         console.error("Error fetching colleges:", error);

@@ -4,6 +4,7 @@ import Subject from "../models/subject.model.js";
 import Semester from "../models/semester.model.js";
 import NoteType from "../models/notetype.model.js";
 import Resourse from "../models/resourse.model.js";
+import mongoose from "mongoose";
 
 export const createCollegeCourseSubject = async (req, res) => {
   try {
@@ -91,7 +92,8 @@ export const createSemester = async (req, res) => {
 
 export const createResourse = async (req, res) => {
   try {
-    const { semesterId, noteType, noteYear, resourseTitle, link } = req.body;
+    const { semesterId, noteType, noteYear, noteTypeId, resourseTitle, link } =
+      req.body;
     const owner = req.userId;
 
     if (!owner) {
@@ -101,43 +103,69 @@ export const createResourse = async (req, res) => {
       });
     }
 
-    if (
-      !semesterId ||
-      !noteType ||
-      noteType.trim() === "" ||
-      !noteYear ||
-      !resourseTitle ||
-      resourseTitle.trim() === "" ||
-      !link ||
-      link.trim() === ""
-    ) {
+    const normalizedResourseTitle =
+      typeof resourseTitle === "string" ? resourseTitle.trim() : "";
+    const normalizedLink = typeof link === "string" ? link.trim() : "";
+
+    if (!normalizedResourseTitle || !normalizedLink) {
       return res.status(400).json({
         success: false,
-        message:
-          "semesterId, noteType, noteYear, resourseTitle and link are required",
+        message: "resourseTitle and link are required",
       });
     }
 
-    const newNoteType = await NoteType.create({
-      semesterId,
-      noteType,
-      noteYear,
-    });
+    let resolvedNoteType = null;
+
+    if (noteTypeId) {
+      if (!mongoose.Types.ObjectId.isValid(noteTypeId)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid noteTypeId",
+        });
+      }
+
+      resolvedNoteType = await NoteType.findById(noteTypeId).lean();
+
+      if (!resolvedNoteType) {
+        return res.status(404).json({
+          success: false,
+          message: "Note type not found for provided noteTypeId",
+        });
+      }
+    } else {
+      if (!semesterId || !noteType || noteType.trim() === "" || !noteYear) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "When noteTypeId is not provided, semesterId, noteType and noteYear are required",
+        });
+      }
+
+      resolvedNoteType = await NoteType.findOne({
+        semesterId,
+        noteType: noteType,
+        noteYear: Number(noteYear),
+      }).lean();
+
+      if (!resolvedNoteType) {
+        resolvedNoteType = await NoteType.create({
+          semesterId,
+          noteType: noteType,
+          noteYear: Number(noteYear),
+        });
+      }
+    }
 
     const newResourse = await Resourse.create({
-      noteTypeId: newNoteType._id,
-      resourseTitle,
+      noteTypeId: resolvedNoteType._id,
+      resourseTitle: resourseTitle,
       owner,
-      link,
+      link: link,
     });
 
     return res.status(201).json({
       success: true,
       message: "Note type and resource created successfully",
-      ids: {
-        noteTypeId: newNoteType._id,
-        resourseId: newResourse._id,
-      },
     });
   } catch (error) {
     console.error("createResourse error:", error.message);
