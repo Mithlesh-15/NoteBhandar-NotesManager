@@ -4,6 +4,7 @@ import Course from "../models/course.model.js";
 import Subject from "../models/subject.model.js";
 import Semester from "../models/semester.model.js";
 import NoteType from "../models/notetype.model.js";
+import Resourse from "../models/resourse.model.js";
 
 export const getColleges = async (req, res) => {
   try {
@@ -182,5 +183,42 @@ export const getNotetype = async (req, res) => {
     });
   }
 };
+
+export const getResourse = async (req, res) => {
+  try {
+    const { noteTypeId } = req.body;
+
+    if (!noteTypeId) {
+      return res.status(400).json({
+        success: false,
+        message: "noteTypeId is required",
+      });
+    }
+
+    const resourses = await Resourse.find({ noteTypeId })
+      .select("_id resourseTitle link stars")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const resourseList = resourses.map((resourse) => ({
+      id: resourse._id,
+      name: resourse.resourseTitle,
+      link: resourse.link,
+      star: resourse.stars ?? 0,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      resourses: resourseList,
+    });
+  } catch (error) {
+    console.error("getResourse error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching resources",
+    });
+  }
+};
+
 
 
