@@ -5,11 +5,8 @@ const isAuthorized = (req, res, next) => {
     const token = req.cookies?.token;
 
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        authorized: false,
-        message: "Unauthorized",
-      });
+       req.userId = null;
+    return next();
     }
 
     const jwtSecret = process.env.JWT_SECRET;
@@ -23,14 +20,6 @@ const isAuthorized = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, jwtSecret);
-
-    if (!decoded?.userId) {
-      return res.status(401).json({
-        success: false,
-        authorized: false,
-        message: "Invalid token payload",
-      });
-    }
 
     req.userId = decoded.userId;
     return next();
