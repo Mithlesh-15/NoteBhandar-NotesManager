@@ -1,39 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../utils/api";
 
 function Resource() {
-  const resources = [
-    { name: "Operating System Notes", stars: 128 },
-    { name: "DBMS Quick Revision", stars: 96 },
-    { name: "Computer Network One Shot", stars: 142 },
-    { name: "DSA in Hindi Playlist", stars: 189 },
-    { name: "React Complete Course", stars: 173 },
-    { name: "System Design Basics", stars: 114 },
-    { name: "Aptitude 100 Questions", stars: 88 },
-    { name: "SQL Practice Sheet", stars: 77 },
-    { name: "C Programming Test Set", stars: 69 },
-    { name: "Last Night Revision", stars: 101 },
-    { name: "PYQ Solved Set", stars: 154 },
-    { name: "Important Viva Questions", stars: 92 },
-    { name: "Discrete Mathematics PDF", stars: 111 },
-    { name: "Compiler Design eBook", stars: 83 },
-    { name: "ML Handwritten Guide", stars: 120 },
-    { name: "Resume Templates", stars: 57 },
-    { name: "HR Interview Q&A", stars: 74 },
-    { name: "Company-wise Coding Sheets", stars: 166 },
-  ];
+
+  const navigate = useNavigate();
+  const { noteType } = useParams();
+  const [resources, setResources] = useState([])
+
+useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        // setLoading(true);
+
+        const response = await api.post("/api/v1/get-data/resourse", {
+          noteTypeId:noteType
+        });
+
+        const data = Array.isArray(response?.data?.resourses)
+          ? response.data.resourses
+          : [];
+          console.log(data)
+          setResources(data)
+      } catch (error) {
+        console.error("Error fetching colleges:", error);
+        navigate("/login", { replace: true });
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchColleges();
+  }, [navigate]);
 
   return (
     <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
       <div className="mx-auto w-full max-w-3xl rounded-xl bg-white/70 p-4 sm:p-6">
         <div className="space-y-2">
+          
           {resources.map((item) => (
             <div
-              key={item.name}
+              key={item.id}
               className="flex items-start justify-between gap-2 rounded-md border border-gray-100 bg-[#fffaf5] px-2 py-2 sm:px-3"
             >
               <a
-                href="#"
+                href={item.link}
+                target="_blank"
                 className="min-w-0 flex-1 wrap-break-words text-xs text-gray-800 underline-offset-2 hover:underline sm:text-sm"
               >
                 {item.name}
@@ -45,7 +58,7 @@ function Resource() {
                   aria-label={`Star ${item.name}`}
                 >
                   <Star className="h-4 w-4" />
-                  <span className="text-[11px] font-medium text-gray-700 sm:text-xs">{item.stars}</span>
+                  <span className="text-[11px] font-medium text-gray-700 sm:text-xs">{item.star}</span>
                 </button>
                 <button
                   type="button"
@@ -56,6 +69,7 @@ function Resource() {
                 </div>
               </div>
           ))}
+
         </div>
       </div>
     </div>
