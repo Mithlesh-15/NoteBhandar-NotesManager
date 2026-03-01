@@ -1,32 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../utils/api";
+import Loading from "../components/Loading";
 
 function Sem() {
-  const options = [
-    "1st Semester",
-    "2nd Semester",
-    "3rd Semester",
-    "4th Semester",
-    "5th Semester",
-    "6th Semester",
-    "7th Semester",
-    "8th Semester",
-  ]
+  const navigate = useNavigate();
+  const { college, course, subject } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [semesterOptions, setSemesterOptions] = useState([]);
+
+  const handleClick = (e) => {
+    navigate(`/find/${college}/${course}/${subject}/${e.id}`);
+  };
+
+  useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        setLoading(true);
+
+        const response = await api.post("/api/v1/get-data/semester-options", {
+          subjectId: subject,
+        });
+
+        const semester = Array.isArray(response?.data?.semesters)
+          ? response.data.semesters
+          : [];
+
+        setSemesterOptions(semester);
+      } catch (error) {
+        console.error("Error fetching colleges:", error);
+        navigate("/login", { replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchColleges();
+  }, [navigate]);
 
   return (
-    <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
-      <div className="mx-auto w-full max-w-xl rounded-xl bg-white/70 p-4 sm:p-6">
-        <div>
-          {options.map((option, index) => (
-            <div key={`${option}-${index}`}>
-              <p className="py-3 text-sm sm:text-base text-gray-800 cursor-pointer">
-                {option}
-              </p>
-              {index !== options.length - 1 && <div className="h-px w-full bg-red-500" />}
-            </div>
-          ))}
+    <>
+      {loading && <Loading />}
+      <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
+        <div className="mx-auto w-full max-w-xl rounded-xl bg-white/70 p-4 sm:p-6">
+          <div>
+            {semesterOptions.map((option, index) => (
+              <div
+                key={`${option}-${index}`}
+                onClick={() => handleClick(option)}
+              >
+                <p className="py-3 text-sm sm:text-base text-gray-800 cursor-pointer">
+                  {option.name}
+                </p>
+                {index !== semesterOptions.length - 1 && (
+                  <div className="h-px w-full bg-red-500" />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
