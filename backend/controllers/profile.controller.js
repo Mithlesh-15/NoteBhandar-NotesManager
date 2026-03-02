@@ -85,22 +85,25 @@ export const updateProfileDetails = async (req, res) => {
       });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.userId, updatePayload, {
-      new: true,
-      runValidators: true,
-    }).lean();
-
-    if (!updatedUser) {
+    const user = await User.findById(req.userId);
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
 
+    if (updatePayload.fullname !== undefined) user.fullname = updatePayload.fullname;
+    if (updatePayload.college !== undefined) user.college = updatePayload.college;
+    if (updatePayload.bio !== undefined) user.bio = updatePayload.bio;
+    if (updatePayload.avatar !== undefined) user.avatar = updatePayload.avatar;
+
+    await user.save();
+
     return res.status(200).json({
       success: true,
       message: "Profile updated successfully",
-      user: updatedUser,
+      user: user.toObject(),
     });
   } catch (error) {
     console.error("updateProfileDetails error:", error.message);
