@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       required: true,
+      default:"https://i.pinimg.com/736x/0d/5f/db/0d5fdb930b2376a39e36ae11abc304d6.jpg"
     },
     college: {
       type: String,
