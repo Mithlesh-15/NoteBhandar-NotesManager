@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Crown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -18,6 +18,13 @@ function NavBar() {
           </h1>
 
           <div className="flex items-center gap-2">
+            <Link
+              to="/profile/0nkqp94v"
+              className="hidden sm:inline-flex items-center justify-center rounded-md bg-white/15 px-3 py-1.5 text-sm font-medium text-white hover:bg-white/25 transition-colors duration-200"
+            >
+              My Profile
+            </Link>
+
             <div className="relative group">
               <button
                 type="button"
@@ -54,7 +61,7 @@ function NavBar() {
       />
 
       <aside
-        className={`fixed top-0 right-0 h-full w-72 bg-white text-gray-800 z-50 shadow-xl transition-transform duration-300 flex flex-col ${
+        className={`fixed top-0 right-0 h-full w-full max-w-xs bg-white text-gray-800 z-50 shadow-xl transition-transform duration-300 flex flex-col ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -76,12 +83,13 @@ function NavBar() {
             alt="Profile"
             className="w-20 h-20 rounded-full object-cover border-2 border-purple-200"
           />
-          <button
-            type="button"
-            className="mt-4 w-full py-2 rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors duration-200 cursor-pointer"
+          <Link
+            to="/profile/0nkqp94v"
+            onClick={() => setIsMenuOpen(false)}
+            className="mt-4 inline-flex w-full items-center justify-center py-2 text-center rounded-md bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors duration-200 cursor-pointer"
           >
             My Profile
-          </button>
+          </Link>
           <button
             type="button"
             className="mt-3 w-full py-2 rounded-md bg-purple-100 text-purple-700 font-medium hover:bg-purple-200 transition-colors duration-200 cursor-pointer"
