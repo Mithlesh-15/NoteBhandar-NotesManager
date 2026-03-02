@@ -1,10 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Crown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+
+const OWNER_AVATAR_KEY = "ownerProfileAvatar";
+const DEFAULT_AVATAR =
+  "https://i.pinimg.com/736x/0d/5f/db/0d5fdb930b2376a39e36ae11abc304d6.jpg";
 
 function NavBar() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [profileAvatar, setProfileAvatar] = useState(
+    () => localStorage.getItem(OWNER_AVATAR_KEY) || DEFAULT_AVATAR,
+  );
+
+  useEffect(() => {
+    const syncAvatar = () => {
+      const storedAvatar = localStorage.getItem(OWNER_AVATAR_KEY);
+      setProfileAvatar(storedAvatar || DEFAULT_AVATAR);
+    };
+
+    window.addEventListener("profile-avatar-updated", syncAvatar);
+    window.addEventListener("storage", syncAvatar);
+    return () => {
+      window.removeEventListener("profile-avatar-updated", syncAvatar);
+      window.removeEventListener("storage", syncAvatar);
+    };
+  }, []);
 
   return (
     <>
@@ -18,13 +39,6 @@ function NavBar() {
           </h1>
 
           <div className="flex items-center gap-2">
-            <Link
-              to="/profile/0nkqp94v"
-              className="hidden sm:inline-flex items-center justify-center rounded-md bg-white/15 px-3 py-1.5 text-sm font-medium text-white hover:bg-white/25 transition-colors duration-200"
-            >
-              My Profile
-            </Link>
-
             <div className="relative group">
               <button
                 type="button"
@@ -79,7 +93,7 @@ function NavBar() {
 
         <div className="px-5 py-6 border-b border-gray-100 flex flex-col items-center">
           <img
-            src="https://i.pravatar.cc/100?img=12"
+            src={profileAvatar}
             alt="Profile"
             className="w-20 h-20 rounded-full object-cover border-2 border-purple-200"
           />

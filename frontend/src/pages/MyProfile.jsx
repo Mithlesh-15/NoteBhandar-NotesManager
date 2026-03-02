@@ -4,6 +4,7 @@ import api from "../utils/api";
 import Loading from "../components/Loading";
 
 const MAX_PROFILE_SIZE = 4 * 1024 * 1024;
+const OWNER_AVATAR_KEY = "ownerProfileAvatar";
 
 function MyProfile() {
   const navigate = useNavigate();
@@ -29,6 +30,19 @@ function MyProfile() {
     bio: "",
     avatar: "",
   });
+
+  const persistOwnerAvatar = (avatarUrl) => {
+    try {
+      if (avatarUrl) {
+        localStorage.setItem(OWNER_AVATAR_KEY, avatarUrl);
+      } else {
+        localStorage.removeItem(OWNER_AVATAR_KEY);
+      }
+      window.dispatchEvent(new Event("profile-avatar-updated"));
+    } catch (error) {
+      console.error("Unable to persist owner avatar:", error);
+    }
+  };
 
   const imagePreview = useMemo(() => {
     if (selectedImage) {
@@ -58,7 +72,8 @@ function MyProfile() {
           throw new Error("Invalid profile response");
         }
 
-        setOwner(Boolean(data.owner));
+        const isOwnerProfile = Boolean(data.owner);
+        setOwner(isOwnerProfile);
         const mappedProfile = {
           fullname: data.user.fullname || "",
           email: data.user.email || "",
@@ -68,6 +83,9 @@ function MyProfile() {
         };
         setProfile(mappedProfile);
         setOriginalProfile(mappedProfile);
+        if (isOwnerProfile) {
+          persistOwnerAvatar(mappedProfile.avatar);
+        }
       } catch (error) {
         const status = error?.response?.status;
         if (status === 404) {
@@ -134,6 +152,9 @@ function MyProfile() {
       };
       setProfile(updatedProfile);
       setOriginalProfile(updatedProfile);
+      if (owner) {
+        persistOwnerAvatar(updatedProfile.avatar);
+      }
       setSelectedImage(null);
       setIsEditing(false);
     } catch (error) {
