@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import LoginRoute from "./routes/login.route.js";
 import setDataRoute from "./routes/setData.route.js";
 import getDataRoute from "./routes/getData.route.js";
+import profileRoute from "./routes/profile.route.js"
 
 dotenv.config();
 DBConnect();
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use("/api/v1/login", LoginRoute);
 app.use("/api/v1/set-data", setDataRoute);
 app.use("/api/v1/get-data", getDataRoute);
+app.use("/api/v1/profile", profileRoute);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
