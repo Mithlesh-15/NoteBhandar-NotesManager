@@ -117,7 +117,7 @@ export const updateProfileDetails = async (req, res) => {
 export const getAllContributers = async (_req, res) => {
   try {
     const users = await User.find({}, { fullname: 1, avatar: 1, stars: 1 })
-      .sort({ createdAt: -1 })
+      .sort({ stars: -1, createdAt: -1 })
       .lean();
 
     const formattedUsers = users.map((user) => ({

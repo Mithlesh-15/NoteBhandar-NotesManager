@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Loading from "../components/Loading";
 
 function Contributers() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [contributers, setContributers] = useState([]);
 
@@ -27,6 +29,11 @@ function Contributers() {
     getAllContributers();
   }, []);
 
+  const handleProfileRedirect = (id) => {
+    if (!id) return;
+    navigate(`/profile/${id}`);
+  };
+
   return (
     <>
       {loading && <Loading />}
@@ -41,14 +48,22 @@ function Contributers() {
                 className="flex items-center justify-between rounded-lg border border-gray-100 bg-[#fffaf5] px-3 py-2.5"
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-purple-200 bg-purple-100">
+                  <div
+                    onClick={() => handleProfileRedirect(person.id)}
+                    className="h-10 w-10 shrink-0 cursor-pointer overflow-hidden rounded-full border border-purple-200 bg-purple-100"
+                  >
                     <img
                       src={person.profilePhoto}
                       alt={person.name}
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <p className="truncate text-sm font-medium text-gray-800 sm:text-base">{person.name}</p>
+                  <p
+                    onClick={() => handleProfileRedirect(person.id)}
+                    className="truncate cursor-pointer text-sm font-medium text-gray-800 hover:underline sm:text-base"
+                  >
+                    {person.name}
+                  </p>
                 </div>
 
                 <div className="inline-flex shrink-0 items-center gap-1 rounded-md border border-yellow-300 bg-yellow-50 px-2 py-1 text-yellow-600">
