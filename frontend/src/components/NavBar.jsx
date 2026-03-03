@@ -40,14 +40,15 @@ function NavBar() {
 
           <div className="flex items-center gap-2">
             <div className="relative group">
-              <button
+              <Link
+              to={'/our-contributers'}
                 type="button"
                 className="p-2 cursor-pointer"
                 aria-label="Contributors"
                 title="Contributors"
               >
                 <Crown size={20} />
-              </button>
+              </Link>
               <span className="pointer-events-none absolute top-full right-0 mt-1 rounded bg-black px-2 py-1 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 Contributors
               </span>

@@ -11,7 +11,7 @@ function Contributers() {
     try {
       setLoading(true);
 
-      const response = await api.get("/api/v1/profile/users");
+      const response = await api.get("/api/v1/profile/contributers");
       console.log(response)
       const users = Array.isArray(response?.data?.users) ? response.data.users : [];
       setContributers(users);
