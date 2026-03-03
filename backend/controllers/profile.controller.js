@@ -113,3 +113,29 @@ export const updateProfileDetails = async (req, res) => {
     });
   }
 };
+
+export const getAllContributers = async (_req, res) => {
+  try {
+    const users = await User.find({}, { fullname: 1, avatar: 1, stars: 1 })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const formattedUsers = users.map((user) => ({
+      id: user._id,
+      name: user.fullname,
+      profilePhoto: user.avatar,
+      stars: user.stars ?? 0,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      users: formattedUsers,
+    });
+  } catch (error) {
+    console.error("getAllUsersPublic error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching users",
+    });
+  }
+};
