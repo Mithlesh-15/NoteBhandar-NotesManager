@@ -151,8 +151,7 @@ export const getMyContributions = async (req, res) => {
     }
 
     const user = req.userId
-
-    const resources = await Resourse.find({ owner: user._id })
+    const resources = await Resourse.find({ owner: user })
       .select("_id resourseTitle link stars")
       .sort({ createdAt: -1 })
       .lean();
@@ -163,7 +162,6 @@ export const getMyContributions = async (req, res) => {
       link: resource.link,
       star: resource.stars ?? 0,
     }));
-
     return res.status(200).json({
       success: true,
       resources: contributionList,
