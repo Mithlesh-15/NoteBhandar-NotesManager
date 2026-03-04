@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Star } from "lucide-react";
+import Loading from "../components/Loading.jsx"
 
 function MyContribution() {
+  const [loading, setLoading] = useState(false)
   const resources = [
     { name: "Operating System Notes", stars: 128 },
     { name: "DBMS Quick Revision", stars: 96 },
@@ -24,6 +26,8 @@ function MyContribution() {
   ];
 
   return (
+    <>
+    {loading && <Loading />}
     <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
       <div className="mx-auto w-full max-w-3xl rounded-xl bg-white/70 p-4 sm:p-6">
         <div className="space-y-2">
@@ -59,6 +63,7 @@ function MyContribution() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Resourse from "../models/resourse.model.js";
 
 const SELF_PROFILE_MARKER = "0nkqp94v";
 
@@ -136,6 +137,42 @@ export const getAllContributers = async (_req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while fetching users",
+    });
+  }
+};
+
+export const getMyContributions = async (req, res) => {
+  try {
+    if (!req.userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const user = req.userId
+
+    const resources = await Resourse.find({ owner: user._id })
+      .select("_id resourseTitle link stars")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const contributionList = resources.map((resource) => ({
+      id: resource._id,
+      title: resource.resourseTitle,
+      link: resource.link,
+      star: resource.stars ?? 0,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      resources: contributionList,
+    });
+  } catch (error) {
+    console.error("getMyContributions error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching contributions",
     });
   }
 };

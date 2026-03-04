@@ -88,7 +88,7 @@ function MyProfile() {
         }
       } catch (error) {
         const status = error?.response?.status;
-        if (status === 404) {
+        if (status === 401) {
           navigate("/login", { replace: true });
           return;
         }

@@ -5,12 +5,19 @@ import {
   getProfileDetails,
   updateProfileDetails,
   getAllContributers,
+  getMyContributions,
 } from "../controllers/profile.controller.js";
 
 const router = express.Router();
 
 router.post("/details", isAuthorized, getProfileDetails);
 router.get("/contributers", getAllContributers);
-router.put("/update", isAuthorized, upload.single("profilePhoto"), updateProfileDetails);
+router.get("/my-contribution", isAuthorized, getMyContributions);
+router.put(
+  "/update",
+  isAuthorized,
+  upload.single("profilePhoto"),
+  updateProfileDetails,
+);
 
 export default router;

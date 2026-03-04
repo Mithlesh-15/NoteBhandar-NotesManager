@@ -57,7 +57,7 @@ const router = createBrowserRouter(
         }
       />
       <Route
-        path="/contributions/:id"
+        path="/contributions"
         element={
           <>
             <NavBar />
