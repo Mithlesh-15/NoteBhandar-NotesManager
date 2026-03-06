@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Star } from "lucide-react";
+import { Loader2, Star, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading.jsx";
 import api from "../utils/api";
@@ -8,6 +8,7 @@ function MyContribution() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [resources, setResources] = useState([]);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     const getMyContributions = async () => {
@@ -32,6 +33,25 @@ function MyContribution() {
 
     getMyContributions();
   }, [navigate]);
+
+  const handleDelete = async (resourseId) => {
+    if (!resourseId) return;
+
+    try {
+      setDeletingId(resourseId);
+      await api.delete(`/api/v1/action/delete-resourse/${resourseId}`);
+
+      setResources((prev) => prev.filter((item) => item.id !== resourseId));
+    } catch (error) {
+      if (error?.response?.status === 401) {
+        navigate("/login", { replace: true });
+        return;
+      }
+      console.error("Error deleting resource:", error);
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <>
@@ -62,6 +82,20 @@ function MyContribution() {
                     <span className="text-[11px] font-medium text-gray-700 sm:text-xs">
                       {item.star}
                     </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(item.id)}
+                    disabled={deletingId === item.id}
+                    className="inline-flex items-center gap-1 rounded-md border border-red-300 bg-red-50 px-2 py-1 text-[11px] font-medium text-red-700 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
+                    aria-label={`Delete ${item.title}`}
+                  >
+                    {deletingId === item.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="h-4 w-4" />
+                    )}
+                    <span>{deletingId === item.id ? "Deleting..." : "Delete"}</span>
                   </button>
                 </div>
               </div>

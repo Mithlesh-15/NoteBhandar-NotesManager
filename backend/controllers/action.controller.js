@@ -8,11 +8,16 @@ import User from "../models/user.model.js";
 import mongoose from "mongoose";
 
 const INCREASE_QUERIES = new Set(["increase", "inc", "up", "add", "plus"]);
-const DECREASE_QUERIES = new Set(["decrease", "dec", "down", "remove", "minus"]);
+const DECREASE_QUERIES = new Set([
+  "decrease",
+  "dec",
+  "down",
+  "remove",
+  "minus",
+]);
 
 export const updateStar = async (req, res) => {
   try {
-
     const { resourseId } = req.body;
     const { query } = req.query;
 
@@ -23,7 +28,8 @@ export const updateStar = async (req, res) => {
       });
     }
 
-    const normalizedQuery = typeof query === "string" ? query.trim().toLowerCase() : "";
+    const normalizedQuery =
+      typeof query === "string" ? query.trim().toLowerCase() : "";
 
     let delta = 0;
     if (INCREASE_QUERIES.has(normalizedQuery)) {
@@ -37,7 +43,9 @@ export const updateStar = async (req, res) => {
       });
     }
 
-    const resource = await Resourse.findById(resourseId).select("_id owner stars").lean();
+    const resource = await Resourse.findById(resourseId)
+      .select("_id owner stars")
+      .lean();
 
     if (!resource) {
       return res.status(404).json({
@@ -56,7 +64,7 @@ export const updateStar = async (req, res) => {
     const updatedResource = await Resourse.findByIdAndUpdate(
       resource._id,
       { $inc: { stars: delta } },
-      { new: true }
+      { new: true },
     )
       .select("_id stars owner")
       .lean();
@@ -69,15 +77,19 @@ export const updateStar = async (req, res) => {
     }
 
     if (delta === 1) {
-      await User.findByIdAndUpdate(updatedResource.owner, { $inc: { stars: 1 } });
+      await User.findByIdAndUpdate(updatedResource.owner, {
+        $inc: { stars: 1 },
+      });
     } else {
       await User.updateOne(
         { _id: updatedResource.owner, stars: { $gt: 0 } },
-        { $inc: { stars: -1 } }
+        { $inc: { stars: -1 } },
       );
     }
 
-    const owner = await User.findById(updatedResource.owner).select("_id stars").lean();
+    const owner = await User.findById(updatedResource.owner)
+      .select("_id stars")
+      .lean();
 
     return res.status(200).json({
       success: true,
@@ -142,7 +154,9 @@ export const deleteResourseWithCascade = async (req, res) => {
 
     let stoppedAt = null;
 
-    const noteTypeInUse = await Resourse.exists({ noteTypeId: resourse.noteTypeId });
+    const noteTypeInUse = await Resourse.exists({
+      noteTypeId: resourse.noteTypeId,
+    });
     if (noteTypeInUse) {
       stoppedAt = "noteType";
       return res.status(200).json({
@@ -170,7 +184,9 @@ export const deleteResourseWithCascade = async (req, res) => {
     await NoteType.deleteOne({ _id: noteType._id });
     deleted.noteTypeId = noteType._id;
 
-    const semesterInUse = await NoteType.exists({ semesterId: noteType.semesterId });
+    const semesterInUse = await NoteType.exists({
+      semesterId: noteType.semesterId,
+    });
     if (semesterInUse) {
       stoppedAt = "semester";
       return res.status(200).json({
@@ -198,7 +214,9 @@ export const deleteResourseWithCascade = async (req, res) => {
     await Semester.deleteOne({ _id: semester._id });
     deleted.semesterId = semester._id;
 
-    const subjectInUse = await Semester.exists({ subjectId: semester.subjectId });
+    const subjectInUse = await Semester.exists({
+      subjectId: semester.subjectId,
+    });
     if (subjectInUse) {
       stoppedAt = "subject";
       return res.status(200).json({
@@ -217,7 +235,8 @@ export const deleteResourseWithCascade = async (req, res) => {
       stoppedAt = "subjectMissing";
       return res.status(200).json({
         success: true,
-        message: "Resource, note type and semester deleted. Subject already missing",
+        message:
+          "Resource, note type and semester deleted. Subject already missing",
         deleted,
         stoppedAt,
       });
@@ -231,7 +250,8 @@ export const deleteResourseWithCascade = async (req, res) => {
       stoppedAt = "course";
       return res.status(200).json({
         success: true,
-        message: "Resource, note type, semester and subject deleted successfully",
+        message:
+          "Resource, note type, semester and subject deleted successfully",
         deleted,
         stoppedAt,
       });
@@ -267,7 +287,9 @@ export const deleteResourseWithCascade = async (req, res) => {
       });
     }
 
-    const college = await College.findById(course.collegeId).select("_id").lean();
+    const college = await College.findById(course.collegeId)
+      .select("_id")
+      .lean();
 
     if (!college) {
       stoppedAt = "collegeMissing";
