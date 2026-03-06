@@ -64,7 +64,7 @@ export const updateStar = async (req, res) => {
     const updatedResource = await Resourse.findByIdAndUpdate(
       resource._id,
       { $inc: { stars: delta } },
-      { new: true },
+      { returnDocument: "after" },
     )
       .select("_id stars owner")
       .lean();
@@ -131,7 +131,7 @@ export const deleteResourseWithCascade = async (req, res) => {
     }
 
     const resourse = await Resourse.findById(resourseId)
-      .select("_id noteTypeId")
+      .select("_id noteTypeId owner stars")
       .lean();
 
     if (!resourse) {
@@ -142,6 +142,22 @@ export const deleteResourseWithCascade = async (req, res) => {
     }
 
     await Resourse.deleteOne({ _id: resourse._id });
+
+    const resourceStars = Number(resourse.stars) || 0;
+    if (resourceStars > 0 && resourse.owner) {
+      const owner = await User.findById(resourse.owner)
+        .select("_id stars")
+        .lean();
+      const updatedOwnerStars = Math.max(
+        (owner?.stars ?? 0) - resourceStars,
+        0,
+      );
+
+      await User.updateOne(
+        { _id: resourse.owner },
+        { $set: { stars: updatedOwnerStars } },
+      );
+    }
 
     const deleted = {
       resourseId: resourse._id,
