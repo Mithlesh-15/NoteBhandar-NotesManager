@@ -161,6 +161,7 @@ function Resource() {
                     </span>
                   </button>
                   <button
+                  onClick={()=>(navigate(`/fr/${item.id}`))}
                     type="button"
                     className="rounded-md bg-red-500 px-2.5 py-1 text-[11px] font-medium text-white transition hover:bg-red-600 sm:text-xs"
                   >

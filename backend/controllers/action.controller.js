@@ -364,7 +364,7 @@ export const feedBackAndReport = async (req, res) => {
       });
     }
 
-    const mailSubject = normalizedId === "pase549nsy" ? "feed back" : "report";
+    const mailSubject = normalizedId === "pase549nsy" ? "Feed Back" : "Report";
     const mailMessage = `
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Subject:</strong> ${subject}</p>
