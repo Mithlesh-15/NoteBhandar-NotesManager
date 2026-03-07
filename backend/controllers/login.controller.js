@@ -35,7 +35,7 @@ export const existUser = async (req, res) => {
 
     const normalizedEmail = email.toLowerCase();
     const user = await User.findOne({ email: normalizedEmail }).select(
-      "_id email fullname avatar",
+      "_id email fullname",
     );
 
     if (!user) {
@@ -67,23 +67,21 @@ export const existUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const { email, fullname, avatar, college, bio } = req.body;
+    const { email, fullname, college, bio } = req.body;
 
     if (
       !email ||
       !fullname ||
-      !avatar ||
       !college ||
       !bio ||
       typeof email !== "string" ||
       typeof fullname !== "string" ||
-      typeof avatar !== "string" ||
       typeof college !== "string" ||
       typeof bio !== "string"
     ) {
       return res.status(400).json({
         success: false,
-        message: "email, fullname, avatar, college and bio are required",
+        message: "email, fullname, college and bio are required",
       });
     }
 
@@ -108,7 +106,7 @@ export const loginUser = async (req, res) => {
     const newUser = await User.create({
       email: normalizedEmail,
       fullname,
-      avatar,
+      avatar:"https://i.pinimg.com/736x/0d/5f/db/0d5fdb930b2376a39e36ae11abc304d6.jpg",
       college,
       bio,
     });

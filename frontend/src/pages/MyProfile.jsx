@@ -21,7 +21,7 @@ function MyProfile() {
     email: "",
     college: "",
     bio: "",
-    avatar: "https://i.pinimg.com/736x/0d/5f/db/0d5fdb930b2376a39e36ae11abc304d6.jpg",
+    avatar: "",
   });
   const [originalProfile, setOriginalProfile] = useState({
     fullname: "",

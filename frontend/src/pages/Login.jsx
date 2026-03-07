@@ -21,9 +21,9 @@ function Login() {
     e.preventDefault();
 
     try {
-      const { email, fullname, avatar, college, bio } = UserInfo;
+      const { email, fullname, college, bio } = UserInfo;
 
-      if (!email || !fullname || !avatar || !college || !bio) {
+      if (!email || !fullname || !college || !bio) {
         alert("All fields are required");
         return;
       }
@@ -33,7 +33,6 @@ function Login() {
       const response = await api.post("/api/v1/login/login-user", {
         email,
         fullname,
-        avatar,
         college,
         bio,
       });

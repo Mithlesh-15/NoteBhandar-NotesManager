@@ -14,7 +14,9 @@ function Contributers() {
       setLoading(true);
 
       const response = await api.get("/api/v1/profile/contributers");
-      const users = Array.isArray(response?.data?.users) ? response.data.users : [];
+      const users = Array.isArray(response?.data?.users)
+        ? response.data.users
+        : [];
       setContributers(users);
     } catch (error) {
       console.error("Error fetching contributors:", error);
@@ -38,7 +40,9 @@ function Contributers() {
       {loading && <Loading />}
       <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
         <div className="mx-auto w-full max-w-2xl rounded-xl bg-white/70 p-4 sm:p-6">
-          <h2 className="mb-4 text-lg font-semibold text-purple-900 sm:text-xl">Our Contributors</h2>
+          <h2 className="mb-4 text-lg font-semibold text-purple-900 sm:text-xl">
+            Our Contributors
+          </h2>
 
           <div className="space-y-2">
             {contributers.map((person) => (
@@ -52,7 +56,10 @@ function Contributers() {
                     className="h-10 w-10 shrink-0 cursor-pointer overflow-hidden rounded-full border border-purple-200 bg-purple-100"
                   >
                     <img
-                      src={person.profilePhoto}
+                      src={
+                        person.profilePhoto ||
+                        "https://i.pinimg.com/736x/0d/5f/db/0d5fdb930b2376a39e36ae11abc304d6.jpg"
+                      }
                       alt={person.name}
                       className="h-full w-full object-cover"
                     />
@@ -67,7 +74,9 @@ function Contributers() {
 
                 <div className="inline-flex shrink-0 items-center gap-1 rounded-md border border-yellow-300 bg-yellow-50 px-2 py-1 text-yellow-600">
                   <Star className="h-4 w-4" />
-                  <span className="text-xs font-semibold text-gray-700">{person.stars}</span>
+                  <span className="text-xs font-semibold text-gray-700">
+                    {person.stars}
+                  </span>
                 </div>
               </div>
             ))}
