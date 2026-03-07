@@ -5,7 +5,7 @@ import Semester from "../models/semester.model.js";
 import NoteType from "../models/notetype.model.js";
 import Resourse from "../models/resourse.model.js";
 import User from "../models/user.model.js";
-import sendMail from "../utils/sendMail.js"
+import sendMail from "../utils/sendMail.js";
 import mongoose from "mongoose";
 
 export const createCollegeCourseSubject = async (req, res) => {
@@ -164,7 +164,12 @@ export const createResourse = async (req, res) => {
       owner,
       link: link,
     });
-    
+
+    res.status(201).json({
+      success: true,
+      message: "Note type and resource created successfully",
+    });
+
     const ownerDetails = await User.findById(owner)
       .select("_id fullname email")
       .lean();
@@ -187,11 +192,7 @@ export const createResourse = async (req, res) => {
     `;
 
     await sendMail("upload", uploadMailMessage);
-
-    return res.status(201).json({
-      success: true,
-      message: "Note type and resource created successfully",
-    });
+    return;
   } catch (error) {
     console.error("createResourse error:", error);
     return res.status(500).json({
