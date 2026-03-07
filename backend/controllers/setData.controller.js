@@ -4,6 +4,8 @@ import Subject from "../models/subject.model.js";
 import Semester from "../models/semester.model.js";
 import NoteType from "../models/notetype.model.js";
 import Resourse from "../models/resourse.model.js";
+import User from "../models/user.model.js";
+import sendMail from "../utils/sendMail.js"
 import mongoose from "mongoose";
 
 export const createCollegeCourseSubject = async (req, res) => {
@@ -162,13 +164,36 @@ export const createResourse = async (req, res) => {
       owner,
       link: link,
     });
+    
+    const ownerDetails = await User.findById(owner)
+      .select("_id fullname email")
+      .lean();
+
+    if (!ownerDetails) {
+      return res.status(401).json({
+        success: false,
+        message: "Owner not found",
+      });
+    }
+
+    const uploadMailMessage = `
+      <p>New resource upload request</p>
+      <p><strong>Title:</strong> ${resourseTitle}</p>
+      <p><strong>Link:</strong> ${normalizedLink}</p>
+      <p><strong>Resource ID:</strong> ${newResourse._id.toString()}</p>
+      <p><strong>Owner Name:</strong> ${ownerDetails.fullname}</p>
+      <p><strong>Owner ID:</strong> ${ownerDetails._id.toString()}</p>
+      <p><strong>Owner Email:</strong> ${ownerDetails.email}</p>
+    `;
+
+    await sendMail("upload", uploadMailMessage);
 
     return res.status(201).json({
       success: true,
       message: "Note type and resource created successfully",
     });
   } catch (error) {
-    console.error("createResourse error:", error.message);
+    console.error("createResourse error:", error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong while creating resource",

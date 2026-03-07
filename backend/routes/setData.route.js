@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.post("/base", createCollegeCourseSubject);
 router.post("/info", createSemester);
-router.post("/resourse", isAuthorized,createResourse);
+router.post("/resourse", isAuthorized , createResourse);
 
 export default router;
