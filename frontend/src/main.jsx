@@ -66,7 +66,7 @@ const router = createBrowserRouter(
         }
       />
       <Route
-        path="/fr"
+        path="/fr/:id"
         element={
           <>
             <NavBar />

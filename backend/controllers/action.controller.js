@@ -6,6 +6,7 @@ import Course from "../models/course.model.js";
 import College from "../models/college.model.js";
 import User from "../models/user.model.js";
 import mongoose from "mongoose";
+import sendMail from "../utils/sendMail.js";
 
 const INCREASE_QUERIES = new Set(["increase", "inc", "up", "add", "plus"]);
 const DECREASE_QUERIES = new Set([
@@ -333,6 +334,55 @@ export const deleteResourseWithCascade = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while deleting resource",
+    });
+  }
+};
+
+export const feedBackAndReport = async (req, res) => {
+  try {
+    const { id, name, subject, message, messege } = req.body;
+
+    const normalizedId = typeof id === "string" ? id.trim() : "";
+    const normalizedName = typeof name === "string" ? name.trim() : "";
+    const normalizedSubject = typeof subject === "string" ? subject.trim() : "";
+    const normalizedMessage =
+      typeof message === "string"
+        ? message.trim()
+        : typeof messege === "string"
+          ? messege.trim()
+          : "";
+
+    if (
+      !normalizedId ||
+      !normalizedName ||
+      !normalizedSubject ||
+      !normalizedMessage
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "id, name, subject and message are required",
+      });
+    }
+
+    const mailSubject = normalizedId === "pase549nsy" ? "feed back" : "report";
+    const mailMessage = `
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong> ${message}</p>
+      <p><strong>ID:</strong> ${id}</p>
+    `;
+
+    await sendMail(mailSubject, mailMessage);
+
+    return res.status(200).json({
+      success: true,
+      message: "Mail sent successfully",
+    });
+  } catch (error) {
+    console.error("sendActionMail error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while sending mail",
     });
   }
 };
