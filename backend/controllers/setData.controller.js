@@ -182,13 +182,21 @@ export const createResourse = async (req, res) => {
     }
 
     const uploadMailMessage = `
-      <p>New resource upload request</p>
-      <p><strong>Title:</strong> ${resourseTitle}</p>
-      <p><strong>Link:</strong> ${normalizedLink}</p>
-      <p><strong>Resource ID:</strong> ${newResourse._id.toString()}</p>
-      <p><strong>Owner Name:</strong> ${ownerDetails.fullname}</p>
-      <p><strong>Owner ID:</strong> ${ownerDetails._id.toString()}</p>
-      <p><strong>Owner Email:</strong> ${ownerDetails.email}</p>
+      <div style="max-width:640px;margin:0 auto;background:#f0fdf4;border:2px solid #22c55e;border-radius:12px;overflow:hidden;font-family:Arial,sans-serif;color:#14532d;">
+        <div style="background:#22c55e;color:#ffffff;padding:14px 18px;font-size:18px;font-weight:700;">
+          Upload Notification
+        </div>
+        <div style="padding:16px 18px;">
+          <p style="margin:0 0 12px 0;color:#166534;">A new resource upload has been submitted.</p>
+          <p style="margin:8px 0;"><strong>Title:</strong> ${resourseTitle}</p>
+          <p style="margin:8px 0;"><strong>Link:</strong> ${normalizedLink}</p>
+          <p style="margin:8px 0;"><strong>Resource ID:</strong> ${newResourse._id.toString()}</p>
+          <hr style="border:none;border-top:1px solid #86efac;margin:14px 0;" />
+          <p style="margin:8px 0;"><strong>Owner Name:</strong> ${ownerDetails.fullname}</p>
+          <p style="margin:8px 0;"><strong>Owner ID:</strong> ${ownerDetails._id.toString()}</p>
+          <p style="margin:8px 0;"><strong>Owner Email:</strong> ${ownerDetails.email}</p>
+        </div>
+      </div>
     `;
 
     await sendMail("upload", uploadMailMessage);

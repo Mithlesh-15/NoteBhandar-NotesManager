@@ -365,11 +365,35 @@ export const feedBackAndReport = async (req, res) => {
     }
 
     const mailSubject = normalizedId === "pase549nsy" ? "Feed Back" : "Report";
+    const isFeedbackMail = mailSubject.toLowerCase().includes("feed");
+    const theme = isFeedbackMail
+      ? {
+          border: "#3b82f6",
+          header: "#2563eb",
+          background: "#eff6ff",
+          text: "#1e3a8a",
+          title: "Feedback Notification",
+        }
+      : {
+          border: "#ef4444",
+          header: "#dc2626",
+          background: "#fef2f2",
+          text: "#7f1d1d",
+          title: "Report Notification",
+        };
+
     const mailMessage = `
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
-      <p><strong>Message:</strong> ${message}</p>
-      <p><strong>ID:</strong> ${id}</p>
+      <div style="max-width:640px;margin:0 auto;background:${theme.background};border:2px solid ${theme.border};border-radius:12px;overflow:hidden;font-family:Arial,sans-serif;color:${theme.text};">
+        <div style="background:${theme.header};color:#ffffff;padding:14px 18px;font-size:18px;font-weight:700;">
+          ${theme.title}
+        </div>
+        <div style="padding:16px 18px;">
+          <p style="margin:8px 0;"><strong>Name:</strong> ${normalizedName}</p>
+          <p style="margin:8px 0;"><strong>Subject:</strong> ${normalizedSubject}</p>
+          <p style="margin:8px 0;"><strong>Message:</strong> ${normalizedMessage}</p>
+          <p style="margin:8px 0;"><strong>ID:</strong> ${normalizedId}</p>
+        </div>
+      </div>
     `;
 
     await sendMail(mailSubject, mailMessage);
