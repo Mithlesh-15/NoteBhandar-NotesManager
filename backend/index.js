@@ -32,4 +32,8 @@ app.use("/api/v1/get-data", getDataRoute);
 app.use("/api/v1/profile", profileRoute);
 app.use("/api/v1/action", actionRoute);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
+
 export default app;
