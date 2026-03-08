@@ -12,55 +12,107 @@ export const createCollegeCourseSubject = async (req, res) => {
   try {
     const { collegeName, courseName, subjectName } = req.body;
 
-    const normalizedCollegeName =
-      typeof collegeName === "string" ? collegeName.trim() : "";
-    const normalizedCourseName =
-      typeof courseName === "string" ? courseName.trim() : "";
-    const normalizedSubjectName =
-      typeof subjectName === "string" ? subjectName.trim() : "";
-
-    if (
-      !normalizedCollegeName ||
-      !normalizedCourseName ||
-      !normalizedSubjectName
-    ) {
+    if (!collegeName || !courseName || !subjectName) {
       return res.status(400).json({
         success: false,
         message: "collegeName, courseName and subjectName are required",
       });
     }
 
-    const newCollege = await College.create({
-      collegeName: collegeName,
+    // =========================
+    // 1️⃣ COLLEGE
+    // =========================
+    let college;
+
+    if (mongoose.Types.ObjectId.isValid(collegeName)) {
+      college = await College.findById(collegeName);
+      if (!college) {
+        return res.status(404).json({
+          success: false,
+          message: "College not found",
+        });
+      }
+    } else {
+      const normalizedCollegeName = collegeName.trim();
+
+      college = await College.findOne({
+        collegeName: normalizedCollegeName,
+      });
+
+      if (!college) {
+        college = await College.create({
+          collegeName: normalizedCollegeName,
+        });
+      }
+    }
+
+    // =========================
+    // 2️⃣ COURSE
+    // =========================
+    let course;
+
+    if (mongoose.Types.ObjectId.isValid(courseName)) {
+      course = await Course.findOne({
+        _id: courseName,
+        collegeId: college._id,
+      });
+
+      if (!course) {
+        return res.status(404).json({
+          success: false,
+          message: "Course not found under this college",
+        });
+      }
+    } else {
+      const normalizedCourseName = courseName.trim();
+
+      course = await Course.findOne({
+        courseName: normalizedCourseName,
+        collegeId: college._id,
+      });
+
+      if (!course) {
+        course = await Course.create({
+          courseName: normalizedCourseName,
+          collegeId: college._id,
+        });
+      }
+    }
+
+    // =========================
+    // 3️⃣ SUBJECT
+    // =========================
+    const normalizedSubjectName = subjectName.trim();
+
+    let subject = await Subject.findOne({
+      subjectName: normalizedSubjectName,
+      courseId: course._id,
     });
 
-    const newCourse = await Course.create({
-      courseName: courseName,
-      collegeId: newCollege._id,
-    });
-
-    const newSubject = await Subject.create({
-      subjectName: subjectName,
-      courseId: newCourse._id,
-    });
+    if (!subject) {
+      subject = await Subject.create({
+        subjectName: normalizedSubjectName,
+        courseId: course._id,
+      });
+    }
 
     return res.status(201).json({
       success: true,
-      message: "College, course and subject created successfully",
+      message: "Processed successfully",
       ids: {
-        collegeId: newCollege._id,
-        courseId: newCourse._id,
-        subjectId: newSubject._id,
+        collegeId: college._id,
+        courseId: course._id,
+        subjectId: subject._id,
       },
     });
   } catch (error) {
     console.error("createCollegeCourseSubject error:", error.message);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong while creating data",
+      message: "Something went wrong",
     });
   }
-};
+};  
 
 export const createSemester = async (req, res) => {
   try {

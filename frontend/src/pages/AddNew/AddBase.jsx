@@ -29,18 +29,10 @@ function AddBase() {
   const handleNext = async () => {
     try {
       setLoading(true);
-
       const response = await api.post("/api/v1/set-data/base", {
-        collegeName:
-          baseData.college === "add_new"
-            ? baseData.collegeNew
-            : baseData.college,
-        courseName:
-          baseData.course === "add_new" ? baseData.courseNew : baseData.course,
-        subjectName:
-          baseData.subject === "add_new"
-            ? baseData.subjectNew
-            : baseData.subject,
+        collegeName: college === "add_new" ? baseData.collegeNew : college,
+        courseName: course === "add_new" ? baseData.courseNew : course,
+        subjectName: subject === "add_new" ? baseData.subjectNew : subject,
       });
 
       if (!response?.data?.success) {
