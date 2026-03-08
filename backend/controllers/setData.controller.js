@@ -165,6 +165,11 @@ export const createResourse = async (req, res) => {
       link: link,
     });
 
+    res.status(201).json({
+      success: true,
+      message: "Note type and resource created successfully",
+    });
+
     const ownerDetails = await User.findById(owner)
       .select("_id fullname email")
       .lean();
@@ -195,12 +200,7 @@ export const createResourse = async (req, res) => {
     `;
 
     await sendMail("upload", uploadMailMessage);
-    
-    return res.status(201).json({
-      success: true,
-      message: "Note type and resource created successfully",
-    });
-
+    return;
   } catch (error) {
     console.error("createResourse error:", error);
     return res.status(500).json({
