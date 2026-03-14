@@ -43,6 +43,9 @@ function Sem() {
       {loading && <Loading />}
       <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
         <div className="mx-auto w-full max-w-xl rounded-xl bg-white/70 p-4 sm:p-6">
+          <p className="mb-4 text-center text-sm sm:text-base text-gray-500">
+            choose your semester or year
+          </p>
           <div>
             {semesterOptions.map((option, index) => (
               <div
