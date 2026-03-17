@@ -3,7 +3,6 @@ import DBConnect from "./utils/DBConnect.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import jwt from "jsonwebtoken";
 
 import LoginRoute from "./routes/login.route.js";
 import setDataRoute from "./routes/setData.route.js";

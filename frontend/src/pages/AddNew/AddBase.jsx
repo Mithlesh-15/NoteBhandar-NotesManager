@@ -60,7 +60,9 @@ function AddBase() {
       try {
         setLoading(true);
 
-        const response = await api.get("/api/v1/get-data/college");
+        const response = await api.get("/api/v1/get-data/college", {
+          withCredentials: true,
+        });
 
         if (!response?.data?.isLoggedIn) {
           navigate("/login", { replace: true });

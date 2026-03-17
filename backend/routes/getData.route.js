@@ -11,8 +11,7 @@ import {
 
 const router = express.Router();
 
-// router.get("/college", isAuthorized, getColleges);
-router.get("/college",  getColleges);
+router.get("/college", isAuthorized, getColleges);
 router.post("/course", getCourses);
 router.post("/subject", getSubjects);
 router.post("/semester-options", getSemester);

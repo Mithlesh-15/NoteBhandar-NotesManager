@@ -73,7 +73,6 @@ function Login() {
                     withCredentials: true,
                   },
                 );
-                console.log(response.data);
                 if (response.data.exists) {
                   navigate("/add-new");
                 } else {
