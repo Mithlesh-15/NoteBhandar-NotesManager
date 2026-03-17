@@ -36,7 +36,7 @@ function Login() {
         college,
         bio,
       });
-
+console.log(response.data)
       if (response?.data?.success) {
         navigate("/add-new");
       }
