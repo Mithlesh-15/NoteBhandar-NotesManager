@@ -36,7 +36,6 @@ function Login() {
         college,
         bio,
       });
-console.log(response.data)
       if (response?.data?.success) {
         navigate("/add-new");
       }
@@ -68,6 +67,7 @@ console.log(response.data)
                 const response = await api.post("/api/v1/login/exist-user", {
                   email: auth.currentUser.email,
                 });
+                console.log(response.data)
                 if (response.data.exists) {
                   navigate("/add-new");
                 } else {
