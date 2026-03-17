@@ -64,10 +64,16 @@ function Login() {
               await signInWithPopup(auth, googleProvider);
               setLoading(true);
               try {
-                const response = await api.post("/api/v1/login/exist-user", {
-                  email: auth.currentUser.email,
-                });
-                console.log(response.data)
+                const response = await api.post(
+                  "/api/v1/login/exist-user",
+                  {
+                    email: auth.currentUser.email,
+                  },
+                  {
+                    withCredentials: true,
+                  },
+                );
+                console.log(response.data);
                 if (response.data.exists) {
                   navigate("/add-new");
                 } else {
