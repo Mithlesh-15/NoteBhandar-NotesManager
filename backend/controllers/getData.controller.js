@@ -18,18 +18,7 @@ export const getColleges = async (req, res) => {
       name: college.collegeName,
     }));
 
-    let isLoggedIn = false;
-    const token = req.cookies?.token;
-    const jwtSecret = process.env.JWT_SECRET;
-
-    if (token && jwtSecret) {
-      try {
-        const decoded = jwt.verify(token, jwtSecret);
-        isLoggedIn = Boolean(decoded?.userId);
-      } catch (_error) {
-        isLoggedIn = false;
-      }
-    }
+    let isLoggedIn = req.userId ? true : false;
 
     return res.status(200).json({
       success: true,
@@ -219,6 +208,3 @@ export const getResourse = async (req, res) => {
     });
   }
 };
-
-
-

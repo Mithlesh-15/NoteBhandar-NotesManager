@@ -6,7 +6,7 @@ const isAuthorized = (req, res, next) => {
   if (!token) {
     req.userId = null;
     return next();
-  }
+  } 
 
   const jwtSecret = process.env.JWT_SECRET;
 
