@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../utils/api";
 import Loading from "../components/Loading.jsx"
+import Ads from "../components/Ads.jsx";
 
 const STARRED_RESOURCE_KEY = "starredResourseIds";
 
@@ -171,8 +172,10 @@ function Resource() {
               </div>
             );
           })}
+          {resources.length > 0 && <Ads />}
         </div>
       </div>
+      <Ads />
     </div>
     </>
   );
