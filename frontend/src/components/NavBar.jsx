@@ -121,6 +121,18 @@ function NavBar() {
           </button>
         </div>
 
+        <Link
+          href="/about"
+          className="mt-auto px-5 py-4 text-xs text-gray-400 border-t border-gray-100 hover:text-gray-500 transition-colors duration-200"
+        >
+          About
+        </Link>
+        <Link
+          href="/privacy-policy"
+          className="mt-auto px-5 py-4 text-xs text-gray-400 border-t border-gray-100 hover:text-gray-500 transition-colors duration-200"
+        >
+          Privacy Policy
+        </Link>
         <a
           href="#"
           className="mt-auto px-5 py-4 text-xs text-gray-400 border-t border-gray-100 hover:text-gray-500 transition-colors duration-200"
