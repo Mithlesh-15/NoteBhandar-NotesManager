@@ -25,6 +25,7 @@ import Contributers from "./pages/Contributers";
 import NavBar from "./components/NavBar";
 import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import About from "./pages/About";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -82,6 +83,12 @@ const router = createBrowserRouter(
             <NavBar />
             <Contributers />
           </>
+        }
+      />
+      <Route
+        path="/about"
+        element={
+         <About />
         }
       />
       <Route
