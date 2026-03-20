@@ -121,24 +121,27 @@ function NavBar() {
           </button>
         </div>
 
-        <Link
-          href="/about"
-          className="mt-auto px-5 py-4 text-xs text-gray-400 border-t border-gray-100 hover:text-gray-500 transition-colors duration-200"
-        >
-          About
-        </Link>
-        <Link
-          href="/privacy-policy"
-          className="mt-auto px-5 py-4 text-xs text-gray-400 border-t border-gray-100 hover:text-gray-500 transition-colors duration-200"
-        >
-          Privacy Policy
-        </Link>
-        <a
-          href="#"
-          className="mt-auto px-5 py-4 text-xs text-gray-400 border-t border-gray-100 hover:text-gray-500 transition-colors duration-200"
-        >
-          owner of this pletform
-        </a>
+        <div className="mt-auto border-t border-gray-100">
+          <div className="flex flex-col items-start px-5 py-3 text-xs text-gray-400">
+            <Link
+              to="/about"
+              onClick={() => setIsMenuOpen(false)}
+              className="py-2 hover:text-gray-500 transition-colors duration-200"
+            >
+              About
+            </Link>
+            <Link
+              to="/privacy-policy"
+              onClick={() => setIsMenuOpen(false)}
+              className="py-2 hover:text-gray-500 transition-colors duration-200"
+            >
+              Privacy Policy
+            </Link>
+            <span className="pt-2 text-[10px] text-gray-300">
+              owner of this pletform
+            </span>
+          </div>
+        </div>
       </aside>
     </>
   );
