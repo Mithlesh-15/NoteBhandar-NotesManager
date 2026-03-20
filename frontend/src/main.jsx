@@ -87,7 +87,7 @@ const router = createBrowserRouter(
       <Route
         path="/privacy-policy"
         element={
-         <PrivacyPolicy
+         <PrivacyPolicy />
         }
       />
       <Route
