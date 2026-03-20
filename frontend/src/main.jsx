@@ -24,6 +24,7 @@ import FandR from "./pages/FandR";
 import Contributers from "./pages/Contributers";
 import NavBar from "./components/NavBar";
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -81,6 +82,12 @@ const router = createBrowserRouter(
             <NavBar />
             <Contributers />
           </>
+        }
+      />
+      <Route
+        path="/privacy-policy"
+        element={
+         <PrivacyPolicy
         }
       />
       <Route
