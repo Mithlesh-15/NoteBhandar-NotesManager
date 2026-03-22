@@ -23,7 +23,7 @@ function Home() {
     },
     {
       id: 2,
-      name: "4th I.T. Almost Prectical",
+      name: "4th I.T. Almost Complete Prectical",
       link: "https://drive.google.com/file/d/1GB00S7KxO0NdbHLhnylqC2QAdKlqdj-N/view",
     },
     {
