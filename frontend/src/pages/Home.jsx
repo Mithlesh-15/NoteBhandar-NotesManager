@@ -14,6 +14,24 @@ function Home() {
     selectedCourse: "",
     selectedSubject: "",
   });
+
+  const resources = [
+    {
+      id: 1,
+      link: "4th I.T. Complete Prectical",
+      name: "https://drive.google.com/file/d/18VMfP3VKA8eLci8pUhD1Q5dDTbwioCrm/view",
+    },
+    {
+      id: 2,
+      link: "4th I.T. Almost Prectical",
+      name: "https://drive.google.com/file/d/1GB00S7KxO0NdbHLhnylqC2QAdKlqdj-N/view",
+    },
+    {
+      id: 3,
+      link: "4th Maths IMP for 2nd internal",
+      name: "https://drive.google.com/file/d/153KNNWcIqU7G_Mf4-vVFjDTnTyeYgB-W/view",
+    },
+  ];
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -179,6 +197,28 @@ function Home() {
           >
             Find
           </button>
+        </div>
+
+        {/* demo content */}
+        <div className="space-y-2">
+          {resources.map((item) => {
+            return (
+              <div
+                key={item.id}
+                className="flex items-start justify-between gap-2 rounded-md border border-gray-100 bg-[#fffaf5] px-2 py-2 sm:px-3"
+              >
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="min-w-0 flex-1 wrap-break-words text-xs text-gray-800 underline-offset-2 hover:underline sm:text-sm"
+                >
+                  {item.name}
+                </a>
+              </div>
+            );
+          })}
+          {resources.length > 0 && <Ads />}
         </div>
       </div>
     </>
