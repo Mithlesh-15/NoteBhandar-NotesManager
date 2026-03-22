@@ -218,7 +218,6 @@ function Home() {
               </div>
             );
           })}
-          {resources.length > 0 && <Ads />}
         </div>
       </div>
     </>
