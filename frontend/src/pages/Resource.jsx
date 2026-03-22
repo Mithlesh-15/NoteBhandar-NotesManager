@@ -171,7 +171,7 @@ function Resource() {
               </div>
             );
           })}
-          {resources.length > 0 && <Ads />}
+          
         </div>
       </div>
     </div>
