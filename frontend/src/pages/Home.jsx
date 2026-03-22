@@ -18,18 +18,18 @@ function Home() {
   const resources = [
     {
       id: 1,
-      link: "4th I.T. Complete Prectical",
-      name: "https://drive.google.com/file/d/18VMfP3VKA8eLci8pUhD1Q5dDTbwioCrm/view",
+      name: "4th I.T. Complete Prectical",
+      link: "https://drive.google.com/file/d/18VMfP3VKA8eLci8pUhD1Q5dDTbwioCrm/view",
     },
     {
       id: 2,
-      link: "4th I.T. Almost Prectical",
-      name: "https://drive.google.com/file/d/1GB00S7KxO0NdbHLhnylqC2QAdKlqdj-N/view",
+      name: "4th I.T. Almost Prectical",
+      link: "https://drive.google.com/file/d/1GB00S7KxO0NdbHLhnylqC2QAdKlqdj-N/view",
     },
     {
       id: 3,
-      link: "4th Maths IMP for 2nd internal",
-      name: "https://drive.google.com/file/d/153KNNWcIqU7G_Mf4-vVFjDTnTyeYgB-W/view",
+      name: "4th Maths IMP for 2nd internal",
+      link: "https://drive.google.com/file/d/153KNNWcIqU7G_Mf4-vVFjDTnTyeYgB-W/view",
     },
   ];
   useEffect(() => {
