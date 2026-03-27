@@ -6,7 +6,7 @@ import AddNew from "./components/AddNew";
 function App() {
   return (
     <>
-      <div className="relative w-screen h-screen bg-[#f6e7d8] overflow-y-hidden">
+      <div className="relative w-screen h-screen bg-[#f6e7d8] overflow-y-auto">
         <NavBar />
         <Outlet />
         <AddNew />

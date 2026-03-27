@@ -62,7 +62,7 @@ function Home() {
     <>
       {" "}
       {loading && <Loading />}
-      <div className="min-h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 pb-32 flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8">
+      <div className="min-h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] mt-10 px-4 pb-32 flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8">
         <div className="w-full max-w-md">
           <p className="mb-2 text-sm font-medium text-gray-700">
             Select College
@@ -219,10 +219,11 @@ function Home() {
             );
           })}
         </div>
+      </div>
         <div className="max-w-5xl mx-auto px-4 py-10">
           {/* Heading */}
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            NoteBhandar – Your Study Resource Hub
+            NoteBhandar - Your Study Resource Hub
           </h1>
 
           {/* Intro */}
@@ -285,7 +286,6 @@ function Home() {
             contact us for removal.
           </p>
         </div>
-      </div>
     </>
   );
 }
