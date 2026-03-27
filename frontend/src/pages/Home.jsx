@@ -19,7 +19,7 @@ function Home() {
     {
       id: 1,
       name: "4th I.T. Complete Prectical",
-      link: "https://drive.google.com/file/d/18VMfP3VKA8eLci8pUhD1Q5dDTbwioCrm/view",
+      link: "https://drive.google.com/file/d/1U-q_WAG0AhcP7x8zelp_ZQKgM9Hul5Xb/view?usp=sharing",
     },
     {
       id: 2,
