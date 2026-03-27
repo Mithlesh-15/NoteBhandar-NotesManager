@@ -219,71 +219,73 @@ function Home() {
             );
           })}
         </div>
-      </div>
-      <div className="max-w-5xl mx-auto px-4 py-10">
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          {/* Heading */}
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            NoteBhandar – Your Study Resource Hub
+          </h1>
 
-      {/* Heading */}
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-        NoteBhandar – Your Study Resource Hub
-      </h1>
+          {/* Intro */}
+          <p className="text-gray-600 leading-relaxed mb-6">
+            NoteBhandar is a platform where students can find notes, previous
+            year questions (PYQs), assignments, and study materials in one
+            place. Instead of searching across multiple platforms, everything is
+            organized based on your college, course, and subject.
+          </p>
 
-      {/* Intro */}
-      <p className="text-gray-600 leading-relaxed mb-6">
-        NoteBhandar is a platform where students can find notes, previous year questions (PYQs), assignments, and study materials in one place. Instead of searching across multiple platforms, everything is organized based on your college, course, and subject.
-      </p>
+          {/* Why Use */}
+          <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
+            Why Use NoteBhandar?
+          </h2>
 
-      {/* Why Use */}
-      <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-        Why Use NoteBhandar?
-      </h2>
+          <ul className="list-disc pl-5 space-y-2 text-gray-600">
+            <li>All study materials in one place</li>
+            <li>Easy filtering by college, course, and subject</li>
+            <li>Completely free access to resources</li>
+            <li>Students can upload and share useful notes</li>
+          </ul>
 
-      <ul className="list-disc pl-5 space-y-2 text-gray-600">
-        <li>All study materials in one place</li>
-        <li>Easy filtering by college, course, and subject</li>
-        <li>Completely free access to resources</li>
-        <li>Students can upload and share useful notes</li>
-      </ul>
+          {/* How It Works */}
+          <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
+            How It Works
+          </h2>
 
-      {/* How It Works */}
-      <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-        How It Works
-      </h2>
+          <ol className="list-decimal pl-5 space-y-2 text-gray-600">
+            <li>Select your college</li>
+            <li>Choose your course and subject</li>
+            <li>Access notes and study materials instantly</li>
+          </ol>
 
-      <ol className="list-decimal pl-5 space-y-2 text-gray-600">
-        <li>Select your college</li>
-        <li>Choose your course and subject</li>
-        <li>Access notes and study materials instantly</li>
-      </ol>
+          {/* Featured Resources */}
+          <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
+            Featured Resources
+          </h2>
 
-      {/* Featured Resources */}
-      <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-        Featured Resources
-      </h2>
-
-      <div className="grid sm:grid-cols-2 gap-4">
-        {[
-          "DBMS Notes – Unit 1",
-          "Physics Previous Year Questions (2023)",
-          "Mathematics Important Questions",
-          "Computer Networks Assignment",
-          "Operating System Notes",
-        ].map((item, index) => (
-          <div
-            key={index}
-            className="p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition"
-          >
-            <p className="text-gray-700 font-medium">{item}</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              "DBMS Notes – Unit 1",
+              "Physics Previous Year Questions (2023)",
+              "Mathematics Important Questions",
+              "Computer Networks Assignment",
+              "Operating System Notes",
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="p-4 bg-white border rounded-lg shadow-sm hover:shadow-md transition"
+              >
+                <p className="text-gray-700 font-medium">{item}</p>
+              </div>
+            ))}
           </div>
-        ))}
+
+          {/* Disclaimer */}
+          <p className="mt-10 text-sm text-gray-500 leading-relaxed">
+            Note: NoteBhandar does not host any files. All resources are
+            user-submitted links. If you find any copyrighted material, please
+            contact us for removal.
+          </p>
+        </div>
       </div>
-
-      {/* Disclaimer */}
-      <p className="mt-10 text-sm text-gray-500 leading-relaxed">
-        Note: NoteBhandar does not host any files. All resources are user-submitted links. 
-        If you find any copyrighted material, please contact us for removal.
-      </p>
-
-    </div>
     </>
   );
 }
