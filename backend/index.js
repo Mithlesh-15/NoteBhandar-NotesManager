@@ -17,7 +17,7 @@ const port = 3000;
 
 app.use(
   cors({
-    origin: ["https://notebhandar.vercel.app","http://localhost:5173"],
+    origin: "https://notebhandar.vercel.app",
     credentials: true,
   }),
 );
@@ -36,6 +36,3 @@ app.get("/health", (req, res) => {
 });
 
 export default app;
-app.listen(port ,()=>{
-  console.log(`http://localhost:${port}`)
-})
