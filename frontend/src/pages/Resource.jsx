@@ -117,28 +117,6 @@ function Resource() {
       });
     }
   };
-
-  // Adsterra ads
-  useEffect(() => {
-    const container = document.getElementById(
-      "container-de7ee0142ad9474f40f494f10542fe0a",
-    );
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    const script = document.createElement("script");
-    script.src =
-      "https://pl28998539.profitablecpmratenetwork.com/de7ee0142ad9474f40f494f10542fe0a/invoke.js";
-    script.async = true;
-
-    container.appendChild(script);
-
-    return () => {
-      container.innerHTML = "";
-    };
-  }, []);
   return (
     <>
       {loading && <Loading />}
@@ -192,11 +170,6 @@ function Resource() {
                 </div>
               );
             })}
-          </div>
-        </div>
-        <div className="flex justify-center my-4">
-          <div className="w-[320px] max-w-full overflow-hidden">
-            <div id="container-de7ee0142ad9474f40f494f10542fe0a"></div>
           </div>
         </div>
       </div>
