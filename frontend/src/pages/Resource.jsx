@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../utils/api";
 import Loading from "../components/Loading.jsx";
+import VignetteAd from '../components/VignetteAd.jsx'
 
 const STARRED_RESOURCE_KEY = "starredResourseIds";
 
@@ -120,6 +121,7 @@ function Resource() {
   return (
     <>
       {loading && <Loading />}
+      <VignetteAd />
       <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
         <div className="mx-auto w-full max-w-3xl rounded-xl bg-white/70 p-4 sm:p-6">
           <div className="space-y-2">
