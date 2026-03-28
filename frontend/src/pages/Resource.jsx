@@ -3,7 +3,6 @@ import { Star } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../utils/api";
 import Loading from "../components/Loading.jsx";
-import VignetteAd from '../components/VignetteAd.jsx'
 
 const STARRED_RESOURCE_KEY = "starredResourseIds";
 
@@ -118,10 +117,24 @@ function Resource() {
       });
     }
   };
+
+  useEffect(() => {
+    const scriptId = "ad-script";
+
+    if (document.getElementById(scriptId)) return;
+
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.src =
+      "https://pl28998539.profitablecpmratenetwork.com/de7ee0142ad9474f40f494f10542fe0a/invoke.js";
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+
+    document.body.appendChild(script);
+  }, []);
   return (
     <>
       {loading && <Loading />}
-      <VignetteAd />
       <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
         <div className="mx-auto w-full max-w-3xl rounded-xl bg-white/70 p-4 sm:p-6">
           <div className="space-y-2">
@@ -172,6 +185,12 @@ function Resource() {
                 </div>
               );
             })}
+          </div>
+          <div className="flex justify-center my-4">
+            <div
+              id="container-de7ee0142ad9474f40f494f10542fe0a"
+              className="w-full max-w-75 min-h-62.5 rounded-xl overflow-hidden bg-gray-100 shadow-sm"
+            ></div>
           </div>
         </div>
       </div>
