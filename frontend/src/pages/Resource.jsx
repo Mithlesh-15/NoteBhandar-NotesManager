@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../utils/api";
-import Loading from "../components/Loading.jsx"
+import Loading from "../components/Loading.jsx";
 
 const STARRED_RESOURCE_KEY = "starredResourseIds";
 
@@ -31,7 +31,7 @@ const saveStarredIds = (idsSet) => {
 function Resource() {
   const navigate = useNavigate();
   const { noteType } = useParams();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [resources, setResources] = useState([]);
   const [starredIds, setStarredIds] = useState(() => getStoredStarredIds());
   const [updatingIds, setUpdatingIds] = useState(new Set());
@@ -118,63 +118,88 @@ function Resource() {
     }
   };
 
+  // Adsterra ads
+  useEffect(() => {
+    const container = document.getElementById(
+      "container-de7ee0142ad9474f40f494f10542fe0a",
+    );
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src =
+      "https://pl28998539.profitablecpmratenetwork.com/de7ee0142ad9474f40f494f10542fe0a/invoke.js";
+    script.async = true;
+
+    container.appendChild(script);
+
+    return () => {
+      container.innerHTML = "";
+    };
+  }, []);
   return (
     <>
-    {loading && <Loading />}
-    <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
-      <div className="mx-auto w-full max-w-3xl rounded-xl bg-white/70 p-4 sm:p-6">
-        <div className="space-y-2">
-          {resources.map((item) => {
-            const isStarred = starredIds.has(item.id);
-            const isUpdating = updatingIds.has(item.id);
+      {loading && <Loading />}
+      <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-[#f6e7d8] px-4 py-6 pb-28">
+        <div className="mx-auto w-full max-w-3xl rounded-xl bg-white/70 p-4 sm:p-6">
+          <div className="space-y-2">
+            {resources.map((item) => {
+              const isStarred = starredIds.has(item.id);
+              const isUpdating = updatingIds.has(item.id);
 
-            return (
-              <div
-                key={item.id}
-                className="flex items-start justify-between gap-2 rounded-md border border-gray-100 bg-[#fffaf5] px-2 py-2 sm:px-3"
-              >
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="min-w-0 flex-1 wrap-break-words text-xs text-gray-800 underline-offset-2 hover:underline sm:text-sm"
+              return (
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between gap-2 rounded-md border border-gray-100 bg-[#fffaf5] px-2 py-2 sm:px-3"
                 >
-                  {item.name}
-                </a>
-                <div className="flex shrink-0 items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleStarToggle(item.id)}
-                    disabled={isUpdating}
-                    className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-1 transition ${
-                      isStarred
-                        ? "border-yellow-400 bg-yellow-100 text-yellow-700"
-                        : "border-yellow-300 bg-yellow-50 text-yellow-600 hover:bg-yellow-100"
-                    } ${isUpdating ? "cursor-not-allowed opacity-60" : ""}`}
-                    aria-label={`${isStarred ? "Unstar" : "Star"} ${item.name}`}
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="min-w-0 flex-1 wrap-break-words text-xs text-gray-800 underline-offset-2 hover:underline sm:text-sm"
                   >
-                    <Star
-                      className={`h-4 w-4 ${isStarred ? "fill-current" : ""}`}
-                    />
-                    <span className="text-[11px] font-medium text-gray-700 sm:text-xs">
-                      {item.star}
-                    </span>
-                  </button>
-                  <button
-                  onClick={()=>(navigate(`/fr/${item.id}`))}
-                    type="button"
-                    className="rounded-md bg-red-500 px-2.5 py-1 text-[11px] font-medium text-white transition hover:bg-red-600 sm:text-xs"
-                  >
-                    Report
-                  </button>
+                    {item.name}
+                  </a>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleStarToggle(item.id)}
+                      disabled={isUpdating}
+                      className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-1 transition ${
+                        isStarred
+                          ? "border-yellow-400 bg-yellow-100 text-yellow-700"
+                          : "border-yellow-300 bg-yellow-50 text-yellow-600 hover:bg-yellow-100"
+                      } ${isUpdating ? "cursor-not-allowed opacity-60" : ""}`}
+                      aria-label={`${isStarred ? "Unstar" : "Star"} ${item.name}`}
+                    >
+                      <Star
+                        className={`h-4 w-4 ${isStarred ? "fill-current" : ""}`}
+                      />
+                      <span className="text-[11px] font-medium text-gray-700 sm:text-xs">
+                        {item.star}
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => navigate(`/fr/${item.id}`)}
+                      type="button"
+                      className="rounded-md bg-red-500 px-2.5 py-1 text-[11px] font-medium text-white transition hover:bg-red-600 sm:text-xs"
+                    >
+                      Report
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-          
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex justify-center my-4">
+          <div className="w-[320px] max-w-full overflow-hidden">
+            <div id="container-de7ee0142ad9474f40f494f10542fe0a"></div>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
